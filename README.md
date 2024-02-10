@@ -1,4 +1,4 @@
-# Verilig projects
+# Verilog projects
 
 Just some small verilog projects I made for learning
 

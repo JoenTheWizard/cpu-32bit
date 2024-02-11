@@ -1,18 +1,17 @@
 BUILD_DIR=build
 VERG=iverilog
-OUT=$(BUILD_DIR)/sr_latch
 
-all: compile run
+TARGET := sr_latch
 
-compile:
-	$(VERG) *.v -o $(OUT)
+#Run and compile program. Use TARGET variable to change directory to compile e.g.:
+#make TARGET=four_bit_adder
+run: $(BUILD_DIR)
+	 $(VERG) $(TARGET)/*.v -o $(BUILD_DIR)/$(TARGET)
+	 vvp $(BUILD_DIR)/$(TARGET)
+	 gtkwave $(BUILD_DIR)/$(TARGET).vcd
 
-run:
-	vvp $(OUT)
-
-gtkwave:
-	gtkwave $(OUT).vcd
-
+$(BUILD_DIR):
+	mkdir -p $(BUILD_DIR)
 
 clean:
-	rm build/*
+	rm $(BUILD_DIR)/*

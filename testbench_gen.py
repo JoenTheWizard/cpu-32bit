@@ -8,7 +8,7 @@ def gen_template(module_name):
 {0} uut();
 
 initial begin
-    $dumpfile(\"build/{0}\"); //Assume in 'build' directory
+    $dumpfile("build/{0}"); //Assume in 'build' directory
     $dumpvars(0, {0});
 
     $finish();

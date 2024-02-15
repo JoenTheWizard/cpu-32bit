@@ -32,5 +32,6 @@ if __name__ == "__main__":
     #Write the test bench verilog file
     f = open(testbench_file,'w')
     f.write(gen_template(module_input))
+    f.close()
 
     print("[+] Done!")

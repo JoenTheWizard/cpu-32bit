@@ -3,13 +3,13 @@
 import sys
 
 def gen_template(module_name):
-    return """module {0};
+    return """module {0}_test;
 
 {0} uut();
 
 initial begin
-    $dumpfile("build/{0}"); //Assume in 'build' directory
-    $dumpvars(0, {0});
+    $dumpfile("build/{0}.vcd"); //Assume in 'build' directory
+    $dumpvars(0, {0}_test);
 
     $finish();
 end

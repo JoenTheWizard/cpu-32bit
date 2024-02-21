@@ -1,4 +1,4 @@
-module ALU16bit_tb;
+module ALU16bit_test;
 
 reg [15:0] a;
 reg [15:0] b;
@@ -9,7 +9,7 @@ ALU16bit uut(a,b,sel0,sel1,out);
 
 initial begin
     $dumpfile("build/ALU16bit.vcd"); //Assume in 'build' directory
-    $dumpvars(0, ALU16bit_tb);
+    $dumpvars(0, ALU16bit_test);
 
     //Apply inputs and check the output
     a =  20; b =  38; sel1 =  0; sel0 =  0; #10; //Output in1

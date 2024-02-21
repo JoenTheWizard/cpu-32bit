@@ -25,7 +25,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     #Input the module name and produce the testbench file
-    module_input = sys.argv[1]; testbench_file = module_input + ".v"
+    module_input = sys.argv[1]; testbench_file = module_input + "_tb.v"
 
     print("[+] Generating Verilog Testbench ('{0}') template".format(testbench_file))
 

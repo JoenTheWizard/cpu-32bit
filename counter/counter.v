@@ -6,7 +6,6 @@ module counter(
 
 initial count = 4'b0000;
 
-//assign count = 0;
 always @(posedge clk) begin
   if (load) begin
     count <= load_val;

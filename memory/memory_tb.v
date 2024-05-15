@@ -1,3 +1,6 @@
+//Define the TIME_UNIT macro
+`define TIME_UNIT 5
+
 module memory_test;
 
 //Clock signal
@@ -21,7 +24,7 @@ memory uut(
 );
 
 always begin
-    #5 clk = ~clk; //Toggle the clock every 5 time units
+    #`TIME_UNIT clk = ~clk; //Toggle the clock every TIME_UNIT time units
 end
 
 initial begin
@@ -34,20 +37,20 @@ initial begin
     data_in = 16'b0;
     write_enable = 0;
     read_enable = 0;
-    #5
+    #`TIME_UNIT
 
     //Write operation
     //when the write_enable is true then the data we set from data_in is stored in that address
     write_enable = 1;
     data_in = 16'h1234;
     address = 8'b00000000;
-    #10; //Wait for the operation to complete
+    #(`TIME_UNIT * 2); //Wait for the operation to complete
 
     //Read operation
     //when the read_enable is true then the data we set from data_in is read in that address
     read_enable = 1;
     address = 8'b00000000;
-    #10; //Wait for the operation to complete
+    #(`TIME_UNIT * 2); //Wait for the operation to complete
 
     //End the simulation
     $finish();

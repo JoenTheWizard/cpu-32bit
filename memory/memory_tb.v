@@ -52,6 +52,26 @@ initial begin
     address = 8'b00000000;
     #(`TIME_UNIT * 2); //Wait for the operation to complete
 
+    //Additional test cases
+    //Write to the last address
+    write_enable = 1;
+    read_enable = 0;
+    data_in = 16'hABCD;
+    address = 8'b11111111;
+    #(`TIME_UNIT * 2); //Wait for the operation to complete
+
+    //Read from the last address
+    write_enable = 0;
+    read_enable = 1;
+    address = 8'b11111111;
+    #(`TIME_UNIT * 2); //Wait for the operation to complete
+
+    //Read from the start address again
+    write_enable = 0;
+    read_enable = 1;
+    address = 8'b00000000;
+    #(`TIME_UNIT * 2); //Wait for the operation to complete
+
     //End the simulation
     $finish();
 end

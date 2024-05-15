@@ -1,6 +1,6 @@
 # Verilog projects
 
-Just some small verilog projects I made for learning
+Just some small verilog projects I made for learning. The projects use GTKWave and IVerilog.
 
 Right now I have:
 - NOR-based SR (Set/Reset) Latch: A sequential circuit with two cross coupled NOR gates used for memory circuits to store values

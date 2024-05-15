@@ -34,6 +34,7 @@ initial begin
     data_in = 16'b0;
     write_enable = 0;
     read_enable = 0;
+    #5
 
     //Write operation
     //when the write_enable is true then the data we set from data_in is stored in that address

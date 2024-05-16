@@ -21,4 +21,4 @@ for (i = 0; i < 16; i=i+1) begin
   assign out[i] =  (operation1[i] & (~sel0 & ~sel1)) | (operation2[i] & (sel0 & ~ sel1)) | (operation3[i] & (~sel0 & sel1)) | (operation4[i] & (sel0 & sel1));
 end 
 
-endmodule;
+endmodule

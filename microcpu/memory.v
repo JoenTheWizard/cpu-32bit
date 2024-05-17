@@ -14,7 +14,7 @@ initial begin
    $readmemb("readmem/instructions.mem", mem);
 end
 
-always @(posedge clk) begin
+always @(*) begin
  //On write
  if (write_enable) begin
     mem[address] <= data_in;

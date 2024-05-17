@@ -7,4 +7,4 @@ build:
 	mkdir -p build
 
 clean:
-	rm build/cpu
+	rm build/*

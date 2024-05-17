@@ -28,12 +28,12 @@ memory program_memory(
 );
 
 //Create the program counter. This will be passed into the program memory to obtain address
-wire [15:0] pc_out;
+wire [11:0] pc_out;
 counter program_counter(
     .clk(clk),
     .reset(reset),
-    .load(1'b0), //No need to load program counter initially
-    .load_val(16'b0), //Also no need to store value address to jump to
+    .load(load_pc), //No need to load program counter initially
+    .load_val(load_pc_val), //Also no need to store value address to jump to
     .count(pc_out)
 );
 
@@ -41,9 +41,9 @@ counter program_counter(
 wire [15:0] reg_data1, reg_data2;
 file_register register_file(
     .clk(clk),
-    .src1(instruction[15:12]),
-    .src2(instruction[11:8]),
-    .dest(instruction[7:4]),
+    .src1(alu_src1),
+    .src2(alu_src2),
+    .dest(alu_dest),
     .data_in(alu_result), //Store the result from ALU to destination register
     .alu_out1(reg_data1),
     .alu_out2(reg_data2)
@@ -54,8 +54,25 @@ wire [15:0] alu_result;
 ALU16bit alu (
     .a(reg_data1),
     .b(reg_data2),
-    .func(instruction[3:0]), //ALU function from instruction
+    .func(alu_op), //ALU function from instruction
     .out(alu_result)
+);
+
+//Control Unit
+wire [3:0] alu_op;
+wire [3:0] alu_src1, alu_src2, alu_dest;
+wire load_pc;
+wire [11:0] load_pc_val;
+control_unit ControlUnit(
+    .instruction(instruction),
+    .alu_op(alu_op),
+    .alu_src1(alu_src1),
+    .alu_src2(alu_src2),
+    .alu_dest(alu_dest),
+
+    //Branching specific output
+    .load_pc(load_pc),
+    .load_pc_val(load_pc_val)
 );
 
 endmodule

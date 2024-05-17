@@ -1,6 +1,6 @@
 module memory(
  input clk,
- input [15:0] address, //Assuming 8-bit address space
+ input [11:0] address, //Assuming 8-bit address space
  input [15:0] data_in,
  input write_enable, input read_enable,
  output reg [15:0] data_out

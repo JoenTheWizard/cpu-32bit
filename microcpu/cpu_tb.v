@@ -14,7 +14,7 @@ initial begin
     $dumpvars(0, cpu_test);
 
     reset = 1;
-    @(posedge clk);
+    #2
     reset = 0;
 
     #20

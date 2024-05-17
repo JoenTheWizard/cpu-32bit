@@ -11,7 +11,7 @@ func: The function or opcode that specifies the operation to perform
 
 15                          0
 +------+------+------+------+
-| src1 | src2 | dest | func |
+| func | src1 | src2 | dest |
 +------+------+------+------+
    4      4      4      4
 */

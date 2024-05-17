@@ -10,7 +10,7 @@ cpu uut(
 always #1 clk = ~clk; //every 1 cycle
 
 initial begin
-    $dumpfile("cpu.vcd"); //Assume in 'build' directory
+    $dumpfile("build/cpu.vcd"); //Assume in 'build' directory
     $dumpvars(0, cpu_test);
 
     reset = 1;

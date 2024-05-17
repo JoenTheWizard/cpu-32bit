@@ -19,7 +19,7 @@ file_register uut(
 always #1 clk = ~clk; //every 1 cycle
 
 initial begin
-    $dumpfile("file_register.vcd"); //Assume in 'build' directory
+    $dumpfile("build/file_register.vcd"); //Assume in 'build' directory
     $dumpvars(0, file_register_test);
     clk = 0;
     

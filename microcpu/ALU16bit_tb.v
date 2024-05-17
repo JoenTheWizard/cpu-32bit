@@ -8,7 +8,7 @@ wire [15:0] out;
 ALU16bit uut(a,b,func,out);
 
 initial begin
-    $dumpfile("ALU16bit.vcd"); //Assume in 'build' directory
+    $dumpfile("build/ALU16bit.vcd"); //Assume in 'build' directory
     $dumpvars(0, ALU16bit_test);
 
     //Apply inputs and check the output

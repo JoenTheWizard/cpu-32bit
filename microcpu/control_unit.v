@@ -5,6 +5,7 @@ module control_unit(
     output reg [3:0] alu_src2,
     output reg [3:0] alu_dest,
 
+    output reg        reg_write_enable,
     //Branching specific output
     output reg        load_pc,
     output reg [11:0] load_pc_val
@@ -30,6 +31,7 @@ always @(*) begin
             alu_dest     <= 4'b0;
             load_pc      <= 1'b0;
             load_pc_val  <= 12'b0;
+            reg_write_enable <= 1'b0;
         end 
         ADD: begin
             //Set signals for the ADD instruction
@@ -39,6 +41,7 @@ always @(*) begin
             alu_dest    <= instruction[3:0];
             load_pc     <= 1'b0;
             load_pc_val <= 12'b0;
+            reg_write_enable <= 1'b1;
         end 
         SUB: begin
             //Set signals for the SUB instruction
@@ -48,6 +51,7 @@ always @(*) begin
             alu_dest    <= instruction[3:0];
             load_pc     <= 1'b0;
             load_pc_val <= 12'b0;
+            reg_write_enable <= 1'b1;
         end
         MUL: begin
             //Set signals for the MUL instruction
@@ -57,6 +61,7 @@ always @(*) begin
             alu_dest    <= instruction[3:0];
             load_pc     <= 1'b0;
             load_pc_val <= 12'b0;
+            reg_write_enable <= 1'b1;
         end 
         AND: begin
             //Set signals for the AND instruction
@@ -66,6 +71,7 @@ always @(*) begin
             alu_dest    <= instruction[3:0];
             load_pc     <= 1'b0;
             load_pc_val <= 12'b0;
+            reg_write_enable <= 1'b1;
         end 
         OR: begin
             //Set signals for the OR instruction
@@ -75,6 +81,7 @@ always @(*) begin
             alu_dest    <= instruction[3:0];
             load_pc     <= 1'b0;
             load_pc_val <= 12'b0;
+            reg_write_enable <= 1'b1;
         end
         JMP: begin
             //Set signals for the JMP instruction
@@ -84,6 +91,7 @@ always @(*) begin
             alu_dest    <= 4'b0;
             load_pc     <= 1'b1;
             load_pc_val <= instruction[11:0];
+            reg_write_enable <= 1'b0;
         end
     endcase
 end

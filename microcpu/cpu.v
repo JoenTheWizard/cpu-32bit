@@ -45,6 +45,7 @@ file_register register_file(
     .src2(alu_src2),
     .dest(alu_dest),
     .data_in(alu_result), //Store the result from ALU to destination register
+    .write_enable(reg_write_enable),
     .alu_out1(reg_data1),
     .alu_out2(reg_data2)
 );
@@ -61,7 +62,7 @@ ALU16bit alu (
 //Control Unit
 wire [3:0] alu_op;
 wire [3:0] alu_src1, alu_src2, alu_dest;
-wire load_pc;
+wire load_pc, reg_write_enable;
 wire [11:0] load_pc_val;
 control_unit ControlUnit(
     .instruction(instruction),
@@ -70,6 +71,7 @@ control_unit ControlUnit(
     .alu_src2(alu_src2),
     .alu_dest(alu_dest),
 
+    .reg_write_enable(reg_write_enable),
     //Branching specific output
     .load_pc(load_pc),
     .load_pc_val(load_pc_val)

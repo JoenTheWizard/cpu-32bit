@@ -55,6 +55,8 @@ wire [15:0] alu_result;
 ALU16bit alu (
     .a(reg_data1),
     .b(reg_data2),
+    .imm(imm),
+    .imm_val(imm_val),
     .func(alu_op), //ALU function from instruction
     .out(alu_result)
 );
@@ -62,14 +64,18 @@ ALU16bit alu (
 //Control Unit
 wire [3:0] alu_op;
 wire [3:0] alu_src1, alu_src2, alu_dest;
-wire load_pc, reg_write_enable;
+wire load_pc, reg_write_enable, imm;
 wire [11:0] load_pc_val;
+wire [15:0] imm_val;
 control_unit ControlUnit(
     .instruction(instruction),
     .alu_op(alu_op),
     .alu_src1(alu_src1),
     .alu_src2(alu_src2),
     .alu_dest(alu_dest),
+
+    .imm(imm),
+    .imm_val(imm_val),
 
     .reg_write_enable(reg_write_enable),
     //Branching specific output

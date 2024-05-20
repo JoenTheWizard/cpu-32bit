@@ -4,10 +4,10 @@ module cpu(
 );
 
 /*
+func: The function or opcode that specifies the operation to perform
 src1: The first source register
 src2: The second source register
 dest: The destination register for the result
-func: The function or opcode that specifies the operation to perform
 
 15                          0
 +------+------+------+------+
@@ -32,8 +32,8 @@ wire [11:0] pc_out;
 counter program_counter(
     .clk(clk),
     .reset(reset),
-    .load(load_pc), //No need to load program counter initially
-    .load_val(load_pc_val), //Also no need to store value address to jump to
+    .load(load_pc), //Will load the counter depending on control unit
+    .load_val(load_pc_val), //Load whatever value, will actually load when load_pc signal is high
     .count(pc_out)
 );
 

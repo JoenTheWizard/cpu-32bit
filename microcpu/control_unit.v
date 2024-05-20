@@ -21,11 +21,11 @@ localparam [3:0]
     MUL = 4'b0011,
     AND = 4'b0100,
     OR  = 4'b0101,
-    JMP = 4'b0110,
+    JMP = 4'b0110, //Jump
     LUI = 4'b0111, //Load Upper Immediate
     LLI = 4'b1000, //Load Lower Immediate
     CMP = 4'b1010, //Compare
-    JEQ = 4'b1011; //Jump Equal
+    JEQ = 4'b1011; //Jump If Equal
 
 always @(*) begin
     //Begin to check the opcode operands and perform correct operation
@@ -139,12 +139,12 @@ always @(*) begin
             imm_val          <= {8'b0, instruction[7:0]};
         end
         CMP: begin
-            //Set signals for the JEQ instruction
-            alu_op           <= SUB; //No ALU operation
+            //Set signals for the CMP instruction
+            alu_op           <= SUB; //Compare by subtracting
             alu_src1         <= instruction[11:8];
             alu_src2         <= instruction[7:4];
             alu_dest         <= 4'b0;
-            load_pc          <= 1'b0; //Jump if equ flag is set
+            load_pc          <= 1'b0;
             load_pc_val      <= 12'b0;
             reg_write_enable <= 1'b0;
             imm              <= 1'b0;

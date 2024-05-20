@@ -52,13 +52,15 @@ file_register register_file(
 
 //Create ALU
 wire [15:0] alu_result;
+wire [7:0]  status_reg;
 ALU16bit alu (
     .a(reg_data1),
     .b(reg_data2),
     .imm(imm),
     .imm_val(imm_val),
     .func(alu_op), //ALU function from instruction
-    .out(alu_result)
+    .out(alu_result),
+    .status_reg(status_reg)
 );
 
 //Control Unit
@@ -69,6 +71,7 @@ wire [11:0] load_pc_val;
 wire [15:0] imm_val;
 control_unit ControlUnit(
     .instruction(instruction),
+    .status_reg(status_reg_latch),
     .alu_op(alu_op),
     .alu_src1(alu_src1),
     .alu_src2(alu_src2),
@@ -82,5 +85,12 @@ control_unit ControlUnit(
     .load_pc(load_pc),
     .load_pc_val(load_pc_val)
 );
+
+//Because we want to latch the status register on clk signal, we do it in the CPU clock itself
+//Could instead pass the clk as input to ALU and make the status register latched through there
+reg [7:0]  status_reg_latch;
+always @(posedge clk) begin
+    status_reg_latch <= status_reg;
+end
 
 endmodule

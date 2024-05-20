@@ -21,6 +21,8 @@ always @(posedge clk) begin
     if (write_enable) begin
       regFile[dest] <= data_in;
   end
+  //Debug register 2
+  //$display("Register 2: %h", regFile[2]);
 end
 
 endmodule

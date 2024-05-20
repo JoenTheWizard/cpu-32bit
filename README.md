@@ -11,4 +11,15 @@ Right now I have:
 - 4 bit counter: A counter that increments on every rising edge clock cycle, with the ability to load values
 
 ## microcpu
-- Very small unfinished implementation of a 16-bit CPU. Has an ALU, program memory, register file, control unit and program counter. So far it can do operations on registers and store it into registers.
+Very small unfinished implementation of a 16-bit CPU. So far it can do operations on registers and store it into registers, jumps and loading immediate values. As of the CPU, right now it has:
+
+- An ALU 
+- Program memory 
+- Register file 
+- Control unit 
+- Program counter
+
+Things to to add:
+
+- Status register
+- Data memory

@@ -18,8 +18,8 @@ Very small unfinished implementation of a 16-bit CPU. So far it can do operation
 - Register file 
 - Control unit 
 - Program counter
+- Status register
 
 Things to to add:
 
-- Status register
 - Data memory

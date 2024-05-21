@@ -1,4 +1,5 @@
 module ALU16bit(
+    input clk,
     input [15:0] a, b, imm_val,
     input imm,
     input [3:0] func,
@@ -6,8 +7,12 @@ module ALU16bit(
     output reg [7:0] status_reg
 );
 
+//Store operand (depending on immediate signal)
 wire [15:0] temp;
-//Bit interpretation of function instruction
+
+//Hold next state of status register
+reg [7:0] status_reg_next;
+
 localparam [3:0]
     NOP = 4'b0000,
     ADD = 4'b0001,
@@ -40,13 +45,18 @@ always @(*) begin
 end
 
 always @(*) begin
-    status_reg[EQU]    <= (out == 0); //Equal
-    status_reg[NEQU]   <= !status_reg[EQU]; //Not Equal
-    status_reg[BTHAN]  <= (temp > b); //Bigger Than
-    status_reg[BEQUAL] <= (status_reg[BTHAN] | status_reg[EQU]); //Bigger Than Equal
-    status_reg[LTHAN]  <= (temp < b); //Less Than
-    status_reg[LEQUAL] <= (status_reg[LTHAN] | status_reg[EQU]); //Less Than Equal
-    status_reg[7:6]    <= 2'b0; //Set remaining bits to 0 (might set it something else or keep it 0 idk)
+    status_reg_next[EQU]    <= (out == 0); //Equal
+    status_reg_next[NEQU]   <= !status_reg_next[EQU]; //Not Equal
+    status_reg_next[BTHAN]  <= (temp > b); //Bigger Than
+    status_reg_next[BEQUAL] <= (status_reg_next[BTHAN] | status_reg_next[EQU]); //Bigger Than Equal
+    status_reg_next[LTHAN]  <= (temp < b); //Less Than
+    status_reg_next[LEQUAL] <= (status_reg_next[LTHAN] | status_reg_next[EQU]); //Less Than Equal
+    status_reg_next[7:6]    <= 2'b0; //Set remaining bits to 0 (might set it something else or keep it 0 idk)
+end
+
+//Latch the status_reg on the positive edge of clock
+always @(posedge clk) begin
+    status_reg <= status_reg_next;
 end
 
 endmodule

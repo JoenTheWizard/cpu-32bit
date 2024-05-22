@@ -1,8 +1,11 @@
 module file_register(
  input clk,
  input [3:0] src1, src2, dest,
- input [15:0] data_in,
- input wire write_enable,
+ input [15:0] alu_data_in, memory_in,
+
+ input mem_data_in,
+ input write_enable,
+
  output wire [15:0] alu_out1,
  output wire [15:0] alu_out2
 );
@@ -19,10 +22,10 @@ assign alu_out2 = regFile[src2];
 
 always @(posedge clk) begin
     if (write_enable) begin
-      regFile[dest] <= data_in;
-  end
-  //Debug register 2
-  //$display("Register 2: %h", regFile[2]);
+      regFile[dest] <= (mem_data_in) ? memory_in : alu_data_in;
+    end
+  //Debug register 2 and 7
+  //$display("Register 2: %h - Register 7: %h", regFile[2], regFile[7]);
 end
 
 endmodule

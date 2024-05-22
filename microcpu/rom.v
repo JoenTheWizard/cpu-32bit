@@ -4,7 +4,7 @@ module rom(
 );
 
 //Memory size of 256 words with 16-bit instruction width (2^8 available words) 
-reg [15:0] mem[2047:0];
+reg [15:0] mem[0:2047];
 
 //Read from file to initialize the instructions
 initial begin

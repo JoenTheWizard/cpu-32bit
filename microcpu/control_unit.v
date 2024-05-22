@@ -13,7 +13,12 @@ module control_unit(
 
     //Branching specific output
     output reg        load_pc,
-    output reg [11:0] load_pc_val
+    output reg [11:0] load_pc_val,
+
+    //Read or write memory
+    output reg        mem_rd,
+    output reg        mem_wr,
+    output reg        mem_data_in
 );
 
 localparam [3:0]
@@ -27,7 +32,8 @@ localparam [3:0]
     LUI = 4'b0111, //Load Upper Immediate
     LLI = 4'b1000, //Load Lower Immediate
     CMP = 4'b1010, //Compare
-    JEQ = 4'b1011; //Jump If Equal
+    JEQ = 4'b1011, //Jump If Equal
+    LOD = 4'b1100; //Load From Address
 
 always @(*) begin
     //Begin to check the opcode operands and perform correct operation
@@ -43,6 +49,9 @@ always @(*) begin
             reg_write_enable <= 1'b0;
             imm              <= 1'b0;
             imm_val          <= 16'b0;
+            mem_wr           <= 1'b0;
+            mem_rd           <= 1'b0;
+            mem_data_in      <= 1'b0;
         end 
         ADD: begin
             //Set signals for the ADD instruction
@@ -55,6 +64,9 @@ always @(*) begin
             reg_write_enable <= 1'b1;
             imm              <= 1'b0;
             imm_val          <= 16'b0;
+            mem_wr           <= 1'b0;
+            mem_rd           <= 1'b0;
+            mem_data_in      <= 1'b0;
         end 
         SUB: begin
             //Set signals for the SUB instruction
@@ -67,6 +79,9 @@ always @(*) begin
             reg_write_enable <= 1'b1;
             imm              <= 1'b0;
             imm_val          <= 16'b0;
+            mem_wr           <= 1'b0;
+            mem_rd           <= 1'b0;
+            mem_data_in      <= 1'b0;
         end
         MUL: begin
             //Set signals for the MUL instruction
@@ -79,6 +94,9 @@ always @(*) begin
             reg_write_enable <= 1'b1;
             imm              <= 1'b0;
             imm_val          <= 16'b0;
+            mem_wr           <= 1'b0;
+            mem_rd           <= 1'b0;
+            mem_data_in      <= 1'b0;
         end 
         AND: begin
             //Set signals for the AND instruction
@@ -91,6 +109,9 @@ always @(*) begin
             reg_write_enable <= 1'b1;
             imm              <= 1'b0;
             imm_val          <= 16'b0;
+            mem_wr           <= 1'b0;
+            mem_rd           <= 1'b0;
+            mem_data_in      <= 1'b0;
         end 
         OR: begin
             //Set signals for the OR instruction
@@ -103,6 +124,9 @@ always @(*) begin
             reg_write_enable <= 1'b1;
             imm              <= 1'b0;
             imm_val          <= 16'b0;
+            mem_wr           <= 1'b0;
+            mem_rd           <= 1'b0;
+            mem_data_in      <= 1'b0;
         end
         JMP: begin
             //Set signals for the JMP instruction
@@ -115,6 +139,9 @@ always @(*) begin
             reg_write_enable <= 1'b0;
             imm              <= 1'b0;
             imm_val          <= 16'b0;
+            mem_wr           <= 1'b0;
+            mem_rd           <= 1'b0;
+            mem_data_in      <= 1'b0;
         end
         LUI: begin
             //Set signals for the LUI instruction
@@ -127,6 +154,9 @@ always @(*) begin
             reg_write_enable <= 1'b1;
             imm              <= 1'b1;
             imm_val          <= {instruction[7:0], 8'b0};
+            mem_wr           <= 1'b0;
+            mem_rd           <= 1'b0;
+            mem_data_in      <= 1'b0;
         end
         LLI: begin
             //Set signals for the LLI instruction
@@ -139,6 +169,9 @@ always @(*) begin
             reg_write_enable <= 1'b1;
             imm              <= 1'b1;
             imm_val          <= {8'b0, instruction[7:0]};
+            mem_wr           <= 1'b0;
+            mem_rd           <= 1'b0;
+            mem_data_in      <= 1'b0;
         end
         CMP: begin
             //Set signals for the CMP instruction
@@ -151,6 +184,9 @@ always @(*) begin
             reg_write_enable <= 1'b0;
             imm              <= 1'b0;
             imm_val          <= 16'b0;
+            mem_wr           <= 1'b0;
+            mem_rd           <= 1'b0;
+            mem_data_in      <= 1'b0;
         end
         JEQ: begin
             //Set signals for the JEQ instruction
@@ -163,6 +199,28 @@ always @(*) begin
             reg_write_enable <= 1'b0;
             imm              <= 1'b0;
             imm_val          <= 16'b0;
+            mem_wr           <= 1'b0;
+            mem_rd           <= 1'b0;
+            mem_data_in      <= 1'b0;
+        end
+        LOD: begin 
+            //Set signals for the LOD instruction
+            alu_op           <= NOP; //No ALU operation
+            alu_src1         <= instruction[7:4];
+            alu_src2         <= 4'b0;
+            alu_dest         <= instruction[11:8];
+
+            load_pc          <= 4'b0;
+            load_pc_val      <= 12'b0;
+
+            reg_write_enable <= 1'b1;
+
+            imm              <= 1'b0;
+            imm_val          <= 16'b0;
+
+            mem_wr           <= 1'b0;
+            mem_rd           <= 1'b1;
+            mem_data_in      <= 1'b1;
         end
     endcase
 end

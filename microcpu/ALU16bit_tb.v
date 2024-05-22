@@ -7,8 +7,10 @@ reg imm;
 reg [15:0] imm_val;
 wire [15:0] out;
 wire [7:0] status_reg;
+reg clk = 0;
+ALU16bit uut(clk,a,b,imm_val,imm,func,out,status_reg);
 
-ALU16bit uut(a,b,imm_val,imm,func,out,status_reg);
+always #1 clk = ~clk; //every 1 cycle
 
 initial begin
     $dumpfile("build/ALU16bit.vcd"); //Assume in 'build' directory
@@ -18,7 +20,7 @@ initial begin
 
     //Test status register
     imm = 0;
-    func = 4'b0010;
+    func = 4'b0;
     a = 4; b = 3;
     #10
     a = 5; b = 5;

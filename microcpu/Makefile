@@ -1,5 +1,5 @@
 computer: build
-	iverilog ALU16bit.v file_register.v counter.v rom.v cpu.v computer.v computer_tb.v control_unit.v -o build/computer
+	iverilog ALU16bit.v file_register.v counter.v rom.v ram.v cpu.v computer.v computer_tb.v control_unit.v -o build/computer
 	vvp build/computer
 	gtkwave build/computer.vcd
 

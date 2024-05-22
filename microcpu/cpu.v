@@ -1,6 +1,8 @@
 module cpu(
-  input clk, 
-  input reset
+  input         clk, 
+  input         reset,
+  input  [15:0] instruction,
+  output [11:0] pc_out
 );
 
 /*
@@ -16,19 +18,7 @@ dest: The destination register for the result
    4      4      4      4
 */
 
-//Obtain the instruction from the memory
-wire [15:0] instruction;
-memory program_memory(
-    .clk(clk),
-    .address(pc_out), //Connect program counter output to instruction memory address
-    .data_in(16'b0), //No need to write to instruction memory
-    .write_enable(1'b0), //We are not writing
-    .read_enable(1'b1), //We are obtaining instructions from program memory
-    .data_out(instruction)
-);
-
 //Create the program counter. This will be passed into the program memory to obtain address
-wire [11:0] pc_out;
 counter program_counter(
     .clk(clk),
     .reset(reset),

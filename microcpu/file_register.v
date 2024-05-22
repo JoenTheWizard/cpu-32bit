@@ -7,7 +7,7 @@ module file_register(
  output wire [15:0] alu_out2
 );
 
-reg [15:0] regFile[15:0];
+reg [15:0] regFile[0:15];
 
 //Read from file to initialize the 16 registers
 initial begin

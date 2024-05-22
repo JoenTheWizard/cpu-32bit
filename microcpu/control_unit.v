@@ -1,14 +1,16 @@
 module control_unit(
-    input [15:0] instruction,
-    input [7:0]  status_reg,
-    output reg [3:0] alu_op,
-    output reg [3:0] alu_src1,
-    output reg [3:0] alu_src2,
-    output reg [3:0] alu_dest,
+    input      [15:0] instruction,
+    input      [7:0]  status_reg,
+
+    output reg [3:0]  alu_op,
+    output reg [3:0]  alu_src1,
+    output reg [3:0]  alu_src2,
+    output reg [3:0]  alu_dest,
 
     output reg        reg_write_enable,
     output reg        imm,
     output reg [15:0] imm_val,
+
     //Branching specific output
     output reg        load_pc,
     output reg [11:0] load_pc_val

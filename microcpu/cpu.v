@@ -7,6 +7,7 @@ module cpu(
 
   output            mem_rd,
   output            mem_wr,
+  output reg [15:0] data_mem_in,
   output reg [11:0] ram_addr
 );
 
@@ -92,6 +93,7 @@ control_unit ControlUnit(
 
 always @(*) begin
     ram_addr <= alu_result;
+    data_mem_in <= reg_data2;
 end
 
 endmodule

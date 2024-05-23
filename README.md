@@ -19,7 +19,9 @@ Very small unfinished implementation of a 16-bit CPU. So far it can do operation
 - Control unit 
 - Program counter
 - Status register
+- Data memory
 
 Things to to add:
 
-- Data memory
+- Implement the rest of instructions (JNE, SHL, XOR etc)
+- Maybe change CPU to 32-bit

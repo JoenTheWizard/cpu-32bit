@@ -33,7 +33,8 @@ localparam [3:0]
     LLI = 4'b1000, //Load Lower Immediate
     CMP = 4'b1010, //Compare
     JEQ = 4'b1011, //Jump If Equal
-    LOD = 4'b1100; //Load From Address
+    LOD = 4'b1100, //Load From Address
+    STR = 4'b1101; //Store To Address
 
 always @(*) begin
     //Begin to check the opcode operands and perform correct operation
@@ -209,18 +210,29 @@ always @(*) begin
             alu_src1         <= instruction[7:4];
             alu_src2         <= 4'b0;
             alu_dest         <= instruction[11:8];
-
             load_pc          <= 4'b0;
             load_pc_val      <= 12'b0;
-
             reg_write_enable <= 1'b1;
-
             imm              <= 1'b0;
             imm_val          <= 16'b0;
-
             mem_wr           <= 1'b0;
             mem_rd           <= 1'b1;
             mem_data_in      <= 1'b1;
+        end
+        STR: begin
+            //Set signals for the STR instruction
+            alu_op           <= NOP; //No ALU operation
+            alu_src1         <= instruction[7:4];
+            alu_src2         <= instruction[11:8];
+            alu_dest         <= 4'b0;
+            load_pc          <= 4'b0;
+            load_pc_val      <= 12'b0;
+            reg_write_enable <= 1'b0;
+            imm              <= 1'b0;
+            imm_val          <= 16'b0;
+            mem_wr           <= 1'b1;
+            mem_rd           <= 1'b0;
+            mem_data_in      <= 1'b0;
         end
     endcase
 end

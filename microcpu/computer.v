@@ -15,14 +15,16 @@ wire [11:0] ram_addr;
 //Obtain RAM read or write
 wire mem_rd, mem_wr;
 
-//Obtain the memory output data from RAM
-wire [15:0] data_mem_out; 
+//Obtain the memory output and input data from RAM
+wire [15:0] data_mem_out;
+wire [15:0] data_mem_in;
 
 ram data_memory(
+    .clk(clk),
     .address(ram_addr),    //Connect program counter output to instruction memory address
-    .data_in(16'b0),       //No need to write to instruction memory
-    .write_enable(mem_wr), //We are not writing
-    .read_enable(mem_rd),  //We are obtaining instructions from program memory
+    .data_in(data_mem_in), //Write to data memory
+    .write_enable(mem_wr), //Write signal
+    .read_enable(mem_rd),  //Read signal
     .data_out(data_mem_out)
 );
 
@@ -39,6 +41,7 @@ cpu processor(
     .instruction(instruction),
 
     .data_mem_out(data_mem_out),
+    .data_mem_in(data_mem_in),
 
     //RAM
     .ram_addr(ram_addr),

@@ -1,14 +1,14 @@
 module ALU16bit(
     input clk,
-    input [15:0] a, b, imm_val,
+    input [31:0] a, b, imm_val,
     input imm,
     input [3:0] func,
-    output reg [15:0] out,
+    output reg [31:0] out,
     output reg [7:0] status_reg
 );
 
 //Store operand (depending on immediate signal)
-wire [15:0] temp;
+wire [31:0] temp;
 
 //Hold next state of status register
 reg [7:0] status_reg_next;

@@ -4,10 +4,10 @@ module computer(
 );
 
 //Obtain the instruction from the program memory
-wire [15:0] instruction;
+wire [31:0] instruction;
 
 //Obtain the program counter from the CPU
-wire [11:0] program_counter;
+wire [25:0] program_counter;
 
 //Obtain the memory access of RAM from CPU
 wire [11:0] ram_addr;
@@ -16,8 +16,8 @@ wire [11:0] ram_addr;
 wire mem_rd, mem_wr;
 
 //Obtain the memory output and input data from RAM
-wire [15:0] data_mem_out;
-wire [15:0] data_mem_in;
+wire [31:0] data_mem_out;
+wire [31:0] data_mem_in;
 
 ram data_memory(
     .clk(clk),

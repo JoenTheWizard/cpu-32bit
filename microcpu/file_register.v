@@ -1,16 +1,16 @@
 module file_register(
  input clk,
  input [3:0] src1, src2, dest,
- input [15:0] alu_data_in, memory_in,
+ input [31:0] alu_data_in, memory_in,
 
  input mem_data_in,
  input write_enable,
 
- output wire [15:0] alu_out1,
- output wire [15:0] alu_out2
+ output wire [31:0] alu_out1,
+ output wire [31:0] alu_out2
 );
 
-reg [15:0] regFile[0:15];
+reg [31:0] regFile[0:31];
 
 //Read from file to initialize the 16 registers
 initial begin
@@ -25,7 +25,7 @@ always @(posedge clk) begin
       regFile[dest] <= (mem_data_in) ? memory_in : alu_data_in;
     end
   //Debug register 2 and 7
-  //$display("Register 2: %h - Register 7: %h", regFile[2], regFile[7]);
+  $display("Register 2: %h - Register 1: %h", regFile[2], regFile[1]);
 end
 
 endmodule

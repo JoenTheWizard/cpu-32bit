@@ -1,13 +1,13 @@
 module cpu(
   input             clk, 
   input             reset,
-  input  [15:0]     instruction,
-  input  [15:0]     data_mem_out,
-  output [11:0]     pc_out,
+  input  [31:0]     instruction,
+  input  [31:0]     data_mem_out,
+  output [25:0]     pc_out,
 
   output            mem_rd,
   output            mem_wr,
-  output reg [15:0] data_mem_in,
+  output reg [31:0] data_mem_in,
   output reg [11:0] ram_addr
 );
 
@@ -34,7 +34,7 @@ counter program_counter(
 );
 
 //Create file register
-wire [15:0] reg_data1, reg_data2;
+wire [31:0] reg_data1, reg_data2;
 file_register register_file(
     .clk(clk),
     .src1(alu_src1),
@@ -49,7 +49,7 @@ file_register register_file(
 );
 
 //Create ALU
-wire [15:0] alu_result;
+wire [31:0] alu_result;
 wire [7:0]  status_reg;
 ALU16bit alu (
     .clk(clk),
@@ -67,8 +67,8 @@ wire [3:0] alu_op;
 wire [3:0] alu_src1, alu_src2, alu_dest;
 wire load_pc, reg_write_enable, imm;
 wire mem_data_in;
-wire [11:0] load_pc_val;
-wire [15:0] imm_val;
+wire [25:0] load_pc_val;
+wire [31:0] imm_val;
 control_unit ControlUnit(
     .instruction(instruction),
     .status_reg(status_reg),

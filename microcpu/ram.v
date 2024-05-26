@@ -29,7 +29,7 @@ always @(posedge clk) begin
    if (write_enable) begin
       mem[address] <= data_in;
    end
-   //$display("Mem 1: %h %h %h %h %h", mem[0], mem[1], mem[2], mem[3], mem[4]);
+   //$display("Mem 1: %h",  mem[1]);
 end
 
 endmodule

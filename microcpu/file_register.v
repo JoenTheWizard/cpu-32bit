@@ -1,6 +1,6 @@
 module file_register(
  input clk,
- input [3:0] src1, src2, dest,
+ input [4:0] src1, src2, dest,
  input [31:0] alu_data_in, memory_in,
 
  input mem_data_in,
@@ -25,7 +25,7 @@ always @(posedge clk) begin
       regFile[dest] <= (mem_data_in) ? memory_in : alu_data_in;
     end
   //Debug register 2 and 7
-  $display("Register 2: %h - Register 1: %h", regFile[2], regFile[1]);
+  $display("Register 3: %h - Register 20: %h - Register 7: %h", regFile[3], regFile[20], regFile[7]);
 end
 
 endmodule

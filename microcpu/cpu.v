@@ -64,7 +64,7 @@ ALU16bit alu (
 
 //Control Unit
 wire [3:0] alu_op;
-wire [3:0] alu_src1, alu_src2, alu_dest;
+wire [4:0] alu_src1, alu_src2, alu_dest;
 wire load_pc, reg_write_enable, imm;
 wire mem_data_in;
 wire [25:0] load_pc_val;

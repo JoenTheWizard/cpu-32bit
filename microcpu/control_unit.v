@@ -3,9 +3,9 @@ module control_unit(
     input      [7:0]  status_reg,
 
     output reg [3:0]  alu_op,
-    output reg [3:0]  alu_src1,
-    output reg [3:0]  alu_src2,
-    output reg [3:0]  alu_dest,
+    output reg [4:0]  alu_src1,
+    output reg [4:0]  alu_src2,
+    output reg [4:0]  alu_dest,
 
     output reg        reg_write_enable,
     output reg        imm,
@@ -42,9 +42,9 @@ always @(*) begin
         NOP: begin
             //Set output to 0 for NOP
             alu_op           <= 4'b0;
-            alu_src1         <= 4'b0;
-            alu_src2         <= 4'b0;
-            alu_dest         <= 4'b0;
+            alu_src1         <= 5'b0;
+            alu_src2         <= 5'b0;
+            alu_dest         <= 5'b0;
             load_pc          <= 1'b0;
             load_pc_val      <= 26'b0;
             reg_write_enable <= 1'b0;
@@ -57,9 +57,9 @@ always @(*) begin
         ADD: begin
             //Set signals for the ADD instruction
             alu_op           <= ADD;
-            alu_src1         <= instruction[25:22];
-            alu_src2         <= instruction[21:18];
-            alu_dest         <= instruction[17:14];
+            alu_src1         <= instruction[25:21];
+            alu_src2         <= instruction[20:16];
+            alu_dest         <= instruction[15:11];
             load_pc          <= 1'b0;
             load_pc_val      <= 26'b0;
             reg_write_enable <= 1'b1;
@@ -72,9 +72,9 @@ always @(*) begin
         SUB: begin
             //Set signals for the SUB instruction
             alu_op           <= SUB;
-            alu_src1         <= instruction[25:22];
-            alu_src2         <= instruction[21:18];
-            alu_dest         <= instruction[17:14];
+            alu_src1         <= instruction[25:21];
+            alu_src2         <= instruction[20:16];
+            alu_dest         <= instruction[15:11];
             load_pc          <= 1'b0;
             load_pc_val      <= 26'b0;
             reg_write_enable <= 1'b1;
@@ -87,9 +87,9 @@ always @(*) begin
         MUL: begin
             //Set signals for the MUL instruction
             alu_op           <= MUL;
-            alu_src1         <= instruction[25:22];
-            alu_src2         <= instruction[21:18];
-            alu_dest         <= instruction[17:14];
+            alu_src1         <= instruction[25:21];
+            alu_src2         <= instruction[20:16];
+            alu_dest         <= instruction[15:11];
             load_pc          <= 1'b0;
             load_pc_val      <= 26'b0;
             reg_write_enable <= 1'b1;
@@ -102,9 +102,9 @@ always @(*) begin
         AND: begin
             //Set signals for the AND instruction
             alu_op           <= AND;
-            alu_src1         <= instruction[25:22];
-            alu_src2         <= instruction[21:18];
-            alu_dest         <= instruction[17:14];
+            alu_src1         <= instruction[25:21];
+            alu_src2         <= instruction[20:16];
+            alu_dest         <= instruction[15:11];
             load_pc          <= 1'b0;
             load_pc_val      <= 26'b0;
             reg_write_enable <= 1'b1;
@@ -117,9 +117,9 @@ always @(*) begin
         OR: begin
             //Set signals for the OR instruction
             alu_op           <= OR;
-            alu_src1         <= instruction[25:22];
-            alu_src2         <= instruction[21:18];
-            alu_dest         <= instruction[17:14];
+            alu_src1         <= instruction[25:21];
+            alu_src2         <= instruction[20:16];
+            alu_dest         <= instruction[15:11];
             load_pc          <= 1'b0;
             load_pc_val      <= 26'b0;
             reg_write_enable <= 1'b1;
@@ -132,11 +132,11 @@ always @(*) begin
         JMP: begin
             //Set signals for the JMP instruction
             alu_op           <= NOP; //Set to NOP since no operation is being done in JMP
-            alu_src1         <= 4'b0;
-            alu_src2         <= 4'b0;
-            alu_dest         <= 4'b0;
+            alu_src1         <= 5'b0;
+            alu_src2         <= 5'b0;
+            alu_dest         <= 5'b0;
             load_pc          <= 1'b1;
-            load_pc_val      <= instruction[25:14];
+            load_pc_val      <= instruction[25:0];
             reg_write_enable <= 1'b0;
             imm              <= 1'b0;
             imm_val          <= 32'b0;
@@ -146,10 +146,10 @@ always @(*) begin
         end
         LUI: begin
             //Set signals for the LUI instruction
-            alu_op           <= 4'b0;
-            alu_src1         <= 4'b0;
-            alu_src2         <= 4'b0;
-            alu_dest         <= instruction[25:22];
+            alu_op           <= 5'b0;
+            alu_src1         <= 5'b0;
+            alu_src2         <= 5'b0;
+            alu_dest         <= instruction[25:21];
             load_pc          <= 1'b0;
             load_pc_val      <= 26'b0;
             reg_write_enable <= 1'b1;
@@ -162,9 +162,9 @@ always @(*) begin
         LLI: begin
             //Set signals for the LLI instruction
             alu_op           <= OR;
-            alu_src1         <= 4'b0;
-            alu_src2         <= instruction[25:22];
-            alu_dest         <= instruction[25:22];
+            alu_src1         <= 5'b0;
+            alu_src2         <= instruction[25:21];
+            alu_dest         <= instruction[25:21];
             load_pc          <= 1'b0;
             load_pc_val      <= 26'b0;
             reg_write_enable <= 1'b1;
@@ -177,9 +177,9 @@ always @(*) begin
         CMP: begin
             //Set signals for the CMP instruction
             alu_op           <= SUB; //Compare by subtracting
-            alu_src1         <= instruction[25:22];
-            alu_src2         <= instruction[21:18];
-            alu_dest         <= 4'b0;
+            alu_src1         <= instruction[25:21];
+            alu_src2         <= instruction[20:16];
+            alu_dest         <= 5'b0;
             load_pc          <= 1'b0;
             load_pc_val      <= 26'b0;
             reg_write_enable <= 1'b0;
@@ -192,9 +192,9 @@ always @(*) begin
         JEQ: begin
             //Set signals for the JEQ instruction
             alu_op           <= NOP; //No ALU operation
-            alu_src1         <= 4'b0;
-            alu_src2         <= 4'b0;
-            alu_dest         <= 4'b0;
+            alu_src1         <= 5'b0;
+            alu_src2         <= 5'b0;
+            alu_dest         <= 5'b0;
             load_pc          <= status_reg[0]; //Jump if equ flag is set
             load_pc_val      <= instruction[25:0];
             reg_write_enable <= 1'b0;
@@ -207,9 +207,9 @@ always @(*) begin
         LOD: begin 
             //Set signals for the LOD instruction
             alu_op           <= NOP; //No ALU operation
-            alu_src1         <= instruction[21:18];
-            alu_src2         <= 4'b0;
-            alu_dest         <= instruction[25:22];
+            alu_src1         <= instruction[20:16];
+            alu_src2         <= 5'b0;
+            alu_dest         <= instruction[25:21];
             load_pc          <= 1'b0;
             load_pc_val      <= 26'b0;
             reg_write_enable <= 1'b1;
@@ -222,9 +222,9 @@ always @(*) begin
         STR: begin
             //Set signals for the STR instruction
             alu_op           <= NOP; //No ALU operation
-            alu_src1         <= instruction[21:18];
-            alu_src2         <= instruction[25:22];
-            alu_dest         <= 4'b0;
+            alu_src1         <= instruction[20:16];
+            alu_src2         <= instruction[25:21];
+            alu_dest         <= 5'b0;
             load_pc          <= 1'b0;
             load_pc_val      <= 26'b0;
             reg_write_enable <= 1'b0;

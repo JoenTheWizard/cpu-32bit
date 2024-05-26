@@ -25,3 +25,4 @@ Things to to add:
 
 - Implement the rest of instructions (JNE, SHL, XOR etc)
 - Maybe change CPU to 32-bit
+- Pipelining

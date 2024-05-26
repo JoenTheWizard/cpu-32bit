@@ -14,7 +14,7 @@ reg [31:0] regFile[0:31];
 
 //Read from file to initialize the 16 registers
 initial begin
-    $readmemh("readmem/file.mem", regFile);
+    $readmemh("readmem/registers.mem", regFile);
 end
 
 assign alu_out1 = regFile[src1];

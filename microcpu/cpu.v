@@ -17,12 +17,26 @@ src1: The first source register
 src2: The second source register
 dest: The destination register for the result
 
-15                          0
-+------+------+------+------+
-| func | src1 | src2 | dest |
-+------+------+------+------+
-   4      4      4      4
+31                                   0
++------+------+------+------+--------+
+| func | src1 | src2 | dest | unused |
++------+------+------+------+--------+
+   6      5      5      5      11
 */
+
+//Outputs from the file register
+wire [31:0] reg_data1, reg_data2;
+
+//Outputs from the ALU
+wire [31:0] alu_result;
+wire [7:0]  status_reg;
+
+//Outputs from control unit
+wire [3:0]  alu_op;
+wire [4:0]  alu_src1, alu_src2, alu_dest;
+wire [25:0] load_pc_val;
+wire [31:0] imm_val;
+wire load_pc, reg_write_enable, imm, mem_data_in;
 
 //Create the program counter. This will be passed into the program memory to obtain address
 counter program_counter(
@@ -34,7 +48,6 @@ counter program_counter(
 );
 
 //Create file register
-wire [31:0] reg_data1, reg_data2;
 file_register register_file(
     .clk(clk),
     .src1(alu_src1),
@@ -49,8 +62,6 @@ file_register register_file(
 );
 
 //Create ALU
-wire [31:0] alu_result;
-wire [7:0]  status_reg;
 ALU16bit alu (
     .clk(clk),
     .a(reg_data1),
@@ -63,12 +74,6 @@ ALU16bit alu (
 );
 
 //Control Unit
-wire [3:0] alu_op;
-wire [4:0] alu_src1, alu_src2, alu_dest;
-wire load_pc, reg_write_enable, imm;
-wire mem_data_in;
-wire [25:0] load_pc_val;
-wire [31:0] imm_val;
 control_unit ControlUnit(
     .instruction(instruction),
     .status_reg(status_reg),

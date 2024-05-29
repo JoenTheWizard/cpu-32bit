@@ -32,12 +32,12 @@ localparam [3:0]
 
 //Opcode
 localparam [5:0]
-    NOP = 6'b000000,
-    ADD = 6'b000001,
-    SUB = 6'b000010,
-    MUL = 6'b000011,
-    AND = 6'b000100,
-    OR  = 6'b000101,
+    NOP = 6'b000000, //No Operation
+    ADD = 6'b000001, //Addition
+    SUB = 6'b000010, //Subtraction
+    MUL = 6'b000011, //Multiplication
+    AND = 6'b000100, //Bitwise And
+    OR  = 6'b000101, //Bitwise Or
     JMP = 6'b000110, //Jump
     LUI = 6'b000111, //Load Upper Immediate
     LLI = 6'b001000, //Load Lower Immediate

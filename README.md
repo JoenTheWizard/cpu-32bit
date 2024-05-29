@@ -11,7 +11,7 @@ Right now I have:
 - 4 bit counter: A counter that increments on every rising edge clock cycle, with the ability to load values
 
 ## microcpu
-Very small unfinished implementation of a 16-bit CPU. So far it can do operations on registers and store it into registers, jumps and loading immediate values. As of the CPU, right now it has:
+Very small unfinished implementation of a 32-bit CPU. So far it can do operations on registers and store it into registers, jumps and loading immediate values. As of the CPU, right now it has:
 
 - An ALU 
 - Program memory 
@@ -24,5 +24,4 @@ Very small unfinished implementation of a 16-bit CPU. So far it can do operation
 Things to to add:
 
 - Implement the rest of instructions (JNE, SHL, XOR etc)
-- Maybe change CPU to 32-bit
 - Pipelining

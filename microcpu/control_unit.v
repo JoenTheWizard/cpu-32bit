@@ -23,28 +23,36 @@ module control_unit(
 
 //Function operation
 localparam [3:0]
-    FUNC_NOP = 4'b0000,
-    FUNC_ADD = 4'b0001,
-    FUNC_SUB = 4'b0010,
-    FUNC_MUL = 4'b0011,
-    FUNC_AND = 4'b0100,
-    FUNC_OR  = 4'b0101;
+    FUNC_NOP  = 4'b0000,
+    FUNC_ADD  = 4'b0001,
+    FUNC_SUB  = 4'b0010,
+    FUNC_MUL  = 4'b0011,
+    FUNC_AND  = 4'b0100,
+    FUNC_OR   = 4'b0101,
+    FUNC_XOR  = 4'b0110,
+    FUNC_XNOR = 4'b0111,
+    FUNC_SHL  = 4'b1000,
+    FUNC_SHR  = 4'b1001;
 
 //Opcode
 localparam [5:0]
-    NOP = 6'b000000, //No Operation
-    ADD = 6'b000001, //Addition
-    SUB = 6'b000010, //Subtraction
-    MUL = 6'b000011, //Multiplication
-    AND = 6'b000100, //Bitwise And
-    OR  = 6'b000101, //Bitwise Or
-    JMP = 6'b000110, //Jump
-    LUI = 6'b000111, //Load Upper Immediate
-    LLI = 6'b001000, //Load Lower Immediate
-    CMP = 6'b001010, //Compare
-    JEQ = 6'b001011, //Jump If Equal
-    LOD = 6'b001100, //Load From Address
-    STR = 6'b001101; //Store To Address
+    NOP  = 6'b000000, //No Operation
+    ADD  = 6'b000001, //Addition
+    SUB  = 6'b000010, //Subtraction
+    MUL  = 6'b000011, //Multiplication
+    AND  = 6'b000100, //Bitwise And
+    OR   = 6'b000101, //Bitwise Or
+    JMP  = 6'b000110, //Jump
+    LUI  = 6'b000111, //Load Upper Immediate
+    LLI  = 6'b001000, //Load Lower Immediate
+    CMP  = 6'b001010, //Compare
+    JEQ  = 6'b001011, //Jump If Equal
+    LOD  = 6'b001100, //Load From Address
+    STR  = 6'b001101, //Store To Address
+    XOR  = 6'b001110, //Exclusive Or
+    XNOR = 6'b001111, //Exclusive Nor
+    SHL  = 6'b010000, //Bit Shift Left
+    SHR  = 6'b010001; //Bit Shift Right
 
 always @(*) begin
     //Begin to check the opcode operands and perform correct operation
@@ -127,6 +135,66 @@ always @(*) begin
         OR: begin
             //Set signals for the OR instruction
             alu_op           <= FUNC_OR;
+            alu_src1         <= instruction[25:21];
+            alu_src2         <= instruction[20:16];
+            alu_dest         <= instruction[15:11];
+            load_pc          <= 1'b0;
+            load_pc_val      <= 26'b0;
+            reg_write_enable <= 1'b1;
+            imm              <= 1'b0;
+            imm_val          <= 32'b0;
+            mem_wr           <= 1'b0;
+            mem_rd           <= 1'b0;
+            mem_data_in      <= 1'b0;
+        end
+        XOR: begin
+            //Set signals for the XOR instruction
+            alu_op           <= FUNC_XOR;
+            alu_src1         <= instruction[25:21];
+            alu_src2         <= instruction[20:16];
+            alu_dest         <= instruction[15:11];
+            load_pc          <= 1'b0;
+            load_pc_val      <= 26'b0;
+            reg_write_enable <= 1'b1;
+            imm              <= 1'b0;
+            imm_val          <= 32'b0;
+            mem_wr           <= 1'b0;
+            mem_rd           <= 1'b0;
+            mem_data_in      <= 1'b0;
+        end
+        XNOR: begin
+            //Set signals for the XNOR instruction
+            alu_op           <= FUNC_XNOR;
+            alu_src1         <= instruction[25:21];
+            alu_src2         <= instruction[20:16];
+            alu_dest         <= instruction[15:11];
+            load_pc          <= 1'b0;
+            load_pc_val      <= 26'b0;
+            reg_write_enable <= 1'b1;
+            imm              <= 1'b0;
+            imm_val          <= 32'b0;
+            mem_wr           <= 1'b0;
+            mem_rd           <= 1'b0;
+            mem_data_in      <= 1'b0;
+        end
+        SHL: begin
+            //Set signals for the SHL instruction
+            alu_op           <= FUNC_SHL;
+            alu_src1         <= instruction[25:21];
+            alu_src2         <= instruction[20:16];
+            alu_dest         <= instruction[15:11];
+            load_pc          <= 1'b0;
+            load_pc_val      <= 26'b0;
+            reg_write_enable <= 1'b1;
+            imm              <= 1'b0;
+            imm_val          <= 32'b0;
+            mem_wr           <= 1'b0;
+            mem_rd           <= 1'b0;
+            mem_data_in      <= 1'b0;
+        end
+        SHR: begin
+            //Set signals for the SHR instruction
+            alu_op           <= FUNC_SHR;
             alu_src1         <= instruction[25:21];
             alu_src2         <= instruction[20:16];
             alu_dest         <= instruction[15:11];

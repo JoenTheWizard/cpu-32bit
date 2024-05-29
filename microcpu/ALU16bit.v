@@ -14,12 +14,16 @@ wire [31:0] temp;
 reg [7:0] status_reg_next;
 
 localparam [3:0]
-    NOP = 4'b0000,
-    ADD = 4'b0001,
-    SUB = 4'b0010,
-    MUL = 4'b0011,
-    AND = 4'b0100,
-    OR  = 4'b0101;
+    NOP  = 4'b0000,
+    ADD  = 4'b0001,
+    SUB  = 4'b0010,
+    MUL  = 4'b0011,
+    AND  = 4'b0100,
+    OR   = 4'b0101,
+    XOR  = 4'b0110,
+    XNOR = 4'b0111,
+    SHL  = 4'b1000,
+    SHR  = 4'b1001;
 
 //Bit indexes of statuses
 localparam
@@ -34,12 +38,16 @@ assign temp = (imm) ? imm_val : a;
 
 always @(*) begin
     case (func)
-        ADD: out <= temp + b;
-        SUB: out <= temp - b;
-        MUL: out <= temp * b;
-        AND: out <= temp & b;
-        OR:  out <= temp | b;
-        NOP: out <= temp; //Set output to 'temp' for NOP
+        NOP:  out <= temp; //Set output to 'temp' for NOP
+        ADD:  out <= temp + b;
+        SUB:  out <= temp - b;
+        MUL:  out <= temp * b;
+        AND:  out <= temp & b;
+        OR:   out <= temp | b;
+        XOR:  out <= temp ^ b;
+        XNOR: out <= ~(temp ^ b);
+        SHL:  out <= temp << b;
+        SHR:  out <= temp >> b;
         default: out <= 16'bx; //Set output to unknown for invalid function codes
     endcase
 end

@@ -21,7 +21,17 @@ module control_unit(
     output reg        mem_data_in
 );
 
+//Function operation
 localparam [3:0]
+    FUNC_NOP = 4'b0000,
+    FUNC_ADD = 4'b0001,
+    FUNC_SUB = 4'b0010,
+    FUNC_MUL = 4'b0011,
+    FUNC_AND = 4'b0100,
+    FUNC_OR  = 4'b0101;
+
+//Opcode
+localparam [5:0]
     NOP = 6'b000000,
     ADD = 6'b000001,
     SUB = 6'b000010,
@@ -41,7 +51,7 @@ always @(*) begin
     case (instruction[31:26])
         NOP: begin
             //Set output to 0 for NOP
-            alu_op           <= 4'b0;
+            alu_op           <= FUNC_NOP;
             alu_src1         <= 5'b0;
             alu_src2         <= 5'b0;
             alu_dest         <= 5'b0;
@@ -56,7 +66,7 @@ always @(*) begin
         end 
         ADD: begin
             //Set signals for the ADD instruction
-            alu_op           <= ADD;
+            alu_op           <= FUNC_ADD;
             alu_src1         <= instruction[25:21];
             alu_src2         <= instruction[20:16];
             alu_dest         <= instruction[15:11];
@@ -71,7 +81,7 @@ always @(*) begin
         end 
         SUB: begin
             //Set signals for the SUB instruction
-            alu_op           <= SUB;
+            alu_op           <= FUNC_SUB;
             alu_src1         <= instruction[25:21];
             alu_src2         <= instruction[20:16];
             alu_dest         <= instruction[15:11];
@@ -86,7 +96,7 @@ always @(*) begin
         end
         MUL: begin
             //Set signals for the MUL instruction
-            alu_op           <= MUL;
+            alu_op           <= FUNC_MUL;
             alu_src1         <= instruction[25:21];
             alu_src2         <= instruction[20:16];
             alu_dest         <= instruction[15:11];
@@ -101,7 +111,7 @@ always @(*) begin
         end 
         AND: begin
             //Set signals for the AND instruction
-            alu_op           <= AND;
+            alu_op           <= FUNC_AND;
             alu_src1         <= instruction[25:21];
             alu_src2         <= instruction[20:16];
             alu_dest         <= instruction[15:11];
@@ -116,7 +126,7 @@ always @(*) begin
         end 
         OR: begin
             //Set signals for the OR instruction
-            alu_op           <= OR;
+            alu_op           <= FUNC_OR;
             alu_src1         <= instruction[25:21];
             alu_src2         <= instruction[20:16];
             alu_dest         <= instruction[15:11];
@@ -131,7 +141,7 @@ always @(*) begin
         end
         JMP: begin
             //Set signals for the JMP instruction
-            alu_op           <= NOP; //Set to NOP since no operation is being done in JMP
+            alu_op           <= FUNC_NOP; //Set to NOP since no operation is being done in JMP
             alu_src1         <= 5'b0;
             alu_src2         <= 5'b0;
             alu_dest         <= 5'b0;
@@ -146,7 +156,7 @@ always @(*) begin
         end
         LUI: begin
             //Set signals for the LUI instruction
-            alu_op           <= 5'b0;
+            alu_op           <= FUNC_NOP;
             alu_src1         <= 5'b0;
             alu_src2         <= 5'b0;
             alu_dest         <= instruction[25:21];
@@ -161,7 +171,7 @@ always @(*) begin
         end
         LLI: begin
             //Set signals for the LLI instruction
-            alu_op           <= OR;
+            alu_op           <= FUNC_OR;
             alu_src1         <= 5'b0;
             alu_src2         <= instruction[25:21];
             alu_dest         <= instruction[25:21];
@@ -176,7 +186,7 @@ always @(*) begin
         end
         CMP: begin
             //Set signals for the CMP instruction
-            alu_op           <= SUB; //Compare by subtracting
+            alu_op           <= FUNC_SUB; //Compare by subtracting
             alu_src1         <= instruction[25:21];
             alu_src2         <= instruction[20:16];
             alu_dest         <= 5'b0;
@@ -191,7 +201,7 @@ always @(*) begin
         end
         JEQ: begin
             //Set signals for the JEQ instruction
-            alu_op           <= NOP; //No ALU operation
+            alu_op           <= FUNC_NOP; //No ALU operation
             alu_src1         <= 5'b0;
             alu_src2         <= 5'b0;
             alu_dest         <= 5'b0;
@@ -206,7 +216,7 @@ always @(*) begin
         end
         LOD: begin 
             //Set signals for the LOD instruction
-            alu_op           <= NOP; //No ALU operation
+            alu_op           <= FUNC_NOP; //No ALU operation
             alu_src1         <= instruction[20:16];
             alu_src2         <= 5'b0;
             alu_dest         <= instruction[25:21];
@@ -221,7 +231,7 @@ always @(*) begin
         end
         STR: begin
             //Set signals for the STR instruction
-            alu_op           <= NOP; //No ALU operation
+            alu_op           <= FUNC_NOP; //No ALU operation
             alu_src1         <= instruction[20:16];
             alu_src2         <= instruction[25:21];
             alu_dest         <= 5'b0;

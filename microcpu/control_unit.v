@@ -53,7 +53,11 @@ localparam [5:0]
     XNOR = 6'b001111, //Exclusive Nor
     SHL  = 6'b010000, //Bit Shift Left
     SHR  = 6'b010001, //Bit Shift Right
-    JNE  = 6'b010010; //Jump If Not Equal
+    JNE  = 6'b010010, //Jump If Not Equal
+    JB   = 6'b010011, //Jump If Greater
+    JBE  = 6'b010100, //Jump If Greater Equal
+    JL   = 6'b010101, //Jump If Less
+    JLE  = 6'b010110; //Jump If Less Equal
 
 always @(*) begin
     //Begin to check the opcode operands and perform correct operation
@@ -290,6 +294,66 @@ always @(*) begin
             alu_src2         <= 5'b0;
             alu_dest         <= 5'b0;
             load_pc          <= status_reg[1]; //Jump if nequ flag is set
+            load_pc_val      <= instruction[25:0];
+            reg_write_enable <= 1'b0;
+            imm              <= 1'b0;
+            imm_val          <= 32'b0;
+            mem_wr           <= 1'b0;
+            mem_rd           <= 1'b0;
+            mem_data_in      <= 1'b0;
+        end
+        JB: begin
+            //Set signals for the JB instruction
+            alu_op           <= FUNC_NOP; //No ALU operation
+            alu_src1         <= 5'b0;
+            alu_src2         <= 5'b0;
+            alu_dest         <= 5'b0;
+            load_pc          <= status_reg[2]; //Jump if bigger flag is set
+            load_pc_val      <= instruction[25:0];
+            reg_write_enable <= 1'b0;
+            imm              <= 1'b0;
+            imm_val          <= 32'b0;
+            mem_wr           <= 1'b0;
+            mem_rd           <= 1'b0;
+            mem_data_in      <= 1'b0;
+        end
+        JBE: begin
+            //Set signals for the JBE instruction
+            alu_op           <= FUNC_NOP; //No ALU operation
+            alu_src1         <= 5'b0;
+            alu_src2         <= 5'b0;
+            alu_dest         <= 5'b0;
+            load_pc          <= status_reg[3]; //Jump if bigger equal flag is set
+            load_pc_val      <= instruction[25:0];
+            reg_write_enable <= 1'b0;
+            imm              <= 1'b0;
+            imm_val          <= 32'b0;
+            mem_wr           <= 1'b0;
+            mem_rd           <= 1'b0;
+            mem_data_in      <= 1'b0;
+        end
+        JL: begin
+            //Set signals for the JL instruction
+            alu_op           <= FUNC_NOP; //No ALU operation
+            alu_src1         <= 5'b0;
+            alu_src2         <= 5'b0;
+            alu_dest         <= 5'b0;
+            load_pc          <= status_reg[4]; //Jump if less flag is set
+            load_pc_val      <= instruction[25:0];
+            reg_write_enable <= 1'b0;
+            imm              <= 1'b0;
+            imm_val          <= 32'b0;
+            mem_wr           <= 1'b0;
+            mem_rd           <= 1'b0;
+            mem_data_in      <= 1'b0;
+        end
+        JLE: begin
+            //Set signals for the JLE instruction
+            alu_op           <= FUNC_NOP; //No ALU operation
+            alu_src1         <= 5'b0;
+            alu_src2         <= 5'b0;
+            alu_dest         <= 5'b0;
+            load_pc          <= status_reg[5]; //Jump if less equal flag is set
             load_pc_val      <= instruction[25:0];
             reg_write_enable <= 1'b0;
             imm              <= 1'b0;

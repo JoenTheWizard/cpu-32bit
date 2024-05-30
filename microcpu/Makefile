@@ -4,7 +4,7 @@ computer: build
 	gtkwave build/computer.vcd
 
 cpu: build
-	iverilog testbenches/ALU16bit.v file_register.v counter.v ram.v cpu.v testbenches/cpu_tb.v control_unit.v -o build/cpu
+	iverilog ALU16bit.v file_register.v counter.v ram.v cpu.v testbenches/cpu_tb.v control_unit.v -o build/cpu
 	vvp build/cpu
 	gtkwave build/cpu.vcd
 

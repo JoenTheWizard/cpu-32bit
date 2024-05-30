@@ -27,12 +27,12 @@ localparam [3:0]
 
 //Bit indexes of statuses
 localparam
-    EQU     = 0,
-    NEQU    = 1,
-    BTHAN   = 2,
-    BEQUAL  = 3,
-    LTHAN   = 4,
-    LEQUAL  = 5;
+    EQU    = 0,
+    NEQU   = 1,
+    BTHAN  = 2,
+    BEQUAL = 3,
+    LTHAN  = 4,
+    LEQUAL = 5;
 
 assign temp = (imm) ? imm_val : a;
 

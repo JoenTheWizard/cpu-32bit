@@ -52,7 +52,8 @@ localparam [5:0]
     XOR  = 6'b001110, //Exclusive Or
     XNOR = 6'b001111, //Exclusive Nor
     SHL  = 6'b010000, //Bit Shift Left
-    SHR  = 6'b010001; //Bit Shift Right
+    SHR  = 6'b010001, //Bit Shift Right
+    JNE  = 6'b010010; //Jump If Not Equal
 
 always @(*) begin
     //Begin to check the opcode operands and perform correct operation
@@ -274,6 +275,21 @@ always @(*) begin
             alu_src2         <= 5'b0;
             alu_dest         <= 5'b0;
             load_pc          <= status_reg[0]; //Jump if equ flag is set
+            load_pc_val      <= instruction[25:0];
+            reg_write_enable <= 1'b0;
+            imm              <= 1'b0;
+            imm_val          <= 32'b0;
+            mem_wr           <= 1'b0;
+            mem_rd           <= 1'b0;
+            mem_data_in      <= 1'b0;
+        end
+        JNE: begin
+            //Set signals for the JNE instruction
+            alu_op           <= FUNC_NOP; //No ALU operation
+            alu_src1         <= 5'b0;
+            alu_src2         <= 5'b0;
+            alu_dest         <= 5'b0;
+            load_pc          <= status_reg[1]; //Jump if nequ flag is set
             load_pc_val      <= instruction[25:0];
             reg_write_enable <= 1'b0;
             imm              <= 1'b0;

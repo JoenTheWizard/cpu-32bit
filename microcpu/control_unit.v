@@ -397,10 +397,10 @@ always @(*) begin
             mem_data_in      <= 1'b0;
         end
         INC: begin
-            //Set signals for the STR instruction
+            //Set signals for the INC instruction
             alu_op           <= FUNC_INC; //No ALU operation
             alu_src1         <= instruction[25:21];
-            alu_src2         <= 5'b0; 
+            alu_src2         <= 5'b0;
             alu_dest         <= instruction[25:21];
             load_pc          <= 1'b0;
             load_pc_val      <= 26'b0;
@@ -412,10 +412,10 @@ always @(*) begin
             mem_data_in      <= 1'b0;
         end
         DEC: begin
-            //Set signals for the STR instruction
+            //Set signals for the DEC instruction
             alu_op           <= FUNC_DEC; //No ALU operation
             alu_src1         <= instruction[25:21];
-            alu_src2         <= 5'b0; 
+            alu_src2         <= 5'b0;
             alu_dest         <= instruction[25:21];
             load_pc          <= 1'b0;
             load_pc_val      <= 26'b0;

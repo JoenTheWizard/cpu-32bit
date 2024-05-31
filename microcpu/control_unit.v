@@ -398,7 +398,7 @@ always @(*) begin
         end
         INC: begin
             //Set signals for the INC instruction
-            alu_op           <= FUNC_INC; //No ALU operation
+            alu_op           <= FUNC_INC;
             alu_src1         <= instruction[25:21];
             alu_src2         <= 5'b0;
             alu_dest         <= instruction[25:21];
@@ -413,7 +413,7 @@ always @(*) begin
         end
         DEC: begin
             //Set signals for the DEC instruction
-            alu_op           <= FUNC_DEC; //No ALU operation
+            alu_op           <= FUNC_DEC;
             alu_src1         <= instruction[25:21];
             alu_src2         <= 5'b0;
             alu_dest         <= instruction[25:21];

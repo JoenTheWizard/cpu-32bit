@@ -32,7 +32,9 @@ localparam [3:0]
     FUNC_XOR  = 4'b0110,
     FUNC_XNOR = 4'b0111,
     FUNC_SHL  = 4'b1000,
-    FUNC_SHR  = 4'b1001;
+    FUNC_SHR  = 4'b1001,
+    FUNC_INC  = 4'b1010,
+    FUNC_DEC  = 4'b1011;
 
 //Opcode
 localparam [5:0]
@@ -57,7 +59,9 @@ localparam [5:0]
     JB   = 6'b010011, //Jump If Greater
     JBE  = 6'b010100, //Jump If Greater Equal
     JL   = 6'b010101, //Jump If Less
-    JLE  = 6'b010110; //Jump If Less Equal
+    JLE  = 6'b010110, //Jump If Less Equal
+    INC  = 6'b010111, //Increment
+    DEC  = 6'b011000; //Decrement
 
 always @(*) begin
     //Begin to check the opcode operands and perform correct operation
@@ -389,6 +393,36 @@ always @(*) begin
             imm              <= 1'b0;
             imm_val          <= 32'b0;
             mem_wr           <= 1'b1;
+            mem_rd           <= 1'b0;
+            mem_data_in      <= 1'b0;
+        end
+        INC: begin
+            //Set signals for the STR instruction
+            alu_op           <= FUNC_INC; //No ALU operation
+            alu_src1         <= instruction[25:21];
+            alu_src2         <= 5'b0; 
+            alu_dest         <= instruction[25:21];
+            load_pc          <= 1'b0;
+            load_pc_val      <= 26'b0;
+            reg_write_enable <= 1'b1;
+            imm              <= 1'b0;
+            imm_val          <= 32'b0;
+            mem_wr           <= 1'b0;
+            mem_rd           <= 1'b0;
+            mem_data_in      <= 1'b0;
+        end
+        DEC: begin
+            //Set signals for the STR instruction
+            alu_op           <= FUNC_DEC; //No ALU operation
+            alu_src1         <= instruction[25:21];
+            alu_src2         <= 5'b0; 
+            alu_dest         <= instruction[25:21];
+            load_pc          <= 1'b0;
+            load_pc_val      <= 26'b0;
+            reg_write_enable <= 1'b1;
+            imm              <= 1'b0;
+            imm_val          <= 32'b0;
+            mem_wr           <= 1'b0;
             mem_rd           <= 1'b0;
             mem_data_in      <= 1'b0;
         end

@@ -1,16 +1,16 @@
 module file_register(
- input clk,
- input [4:0] src1, src2, dest,
- input [31:0] alu_data_in, memory_in,
+  input clk,
+  input [4:0] src1, src2, dest,
+  input [31:0] alu_data_in, memory_in,
 
- input [25:0] pc_addr_in,
+  input [25:0] pc_addr_in,
 
- input mem_data_in,
- input write_enable,
- input pc_next_enable,
+  input mem_data_in,
+  input write_enable,
+  input pc_next_enable,
 
- output wire [31:0] alu_out1,
- output wire [31:0] alu_out2
+  output wire [31:0] alu_out1,
+  output wire [31:0] alu_out2
 );
 
 reg [31:0] regFile[0:31];

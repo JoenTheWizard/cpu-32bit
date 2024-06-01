@@ -24,6 +24,10 @@ dest: The destination register for the result
    6      5      5      5      11
 */
 
+//Output of program counter
+wire [25:0] count_next;
+wire pc_next_enable;
+
 //Outputs from the file register
 wire [31:0] reg_data1, reg_data2;
 
@@ -36,15 +40,18 @@ wire [3:0]  alu_op;
 wire [4:0]  alu_src1, alu_src2, alu_dest;
 wire [25:0] load_pc_val;
 wire [31:0] imm_val;
-wire load_pc, reg_write_enable, imm, mem_data_in;
+wire load_pc, reg_write_enable, imm, mem_data_in, alu_next_enable;
 
 //Create the program counter. This will be passed into the program memory to obtain address
 counter program_counter(
     .clk(clk),
     .reset(reset),
-    .load(load_pc), //Will load the counter depending on control unit
+    .load(load_pc),         //Will load the counter depending on control unit
     .load_val(load_pc_val), //Load whatever value, will actually load when load_pc signal is high
-    .count(pc_out)
+    .alu_in(alu_next_enable), 
+    .alu_val(alu_result),
+    .count(pc_out),
+    .count_next(count_next) //Obtain the next program counter value for call/ret instructions
 );
 
 //Create file register
@@ -55,8 +62,13 @@ file_register register_file(
     .dest(alu_dest),
     .alu_data_in(alu_result), //Store the result from ALU to destination register
     .memory_in(data_mem_out),
+    .pc_addr_in(count_next),
+
+    //Set signals
     .mem_data_in(mem_data_in),
     .write_enable(reg_write_enable),
+    .pc_next_enable(pc_next_enable),
+
     .alu_out1(reg_data1),
     .alu_out2(reg_data2)
 );
@@ -93,7 +105,11 @@ control_unit ControlUnit(
 
     .mem_rd(mem_rd),
     .mem_wr(mem_wr),
-    .mem_data_in(mem_data_in)
+    .mem_data_in(mem_data_in),
+
+    //ALU based output to set PC (Related to CALL/RET)
+    .pc_next_enable(pc_next_enable),
+    .alu_next_enable(alu_next_enable)
 );
 
 always @(*) begin

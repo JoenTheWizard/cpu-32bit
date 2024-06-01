@@ -18,7 +18,11 @@ module control_unit(
     //Read or write memory
     output reg        mem_rd,
     output reg        mem_wr,
-    output reg        mem_data_in
+    output reg        mem_data_in,
+
+    //Program counter (for CALL/RET)
+    output reg        pc_next_enable,
+    output reg        alu_next_enable
 );
 
 //Function operation
@@ -61,7 +65,9 @@ localparam [5:0]
     JL   = 6'b010101, //Jump If Less
     JLE  = 6'b010110, //Jump If Less Equal
     INC  = 6'b010111, //Increment
-    DEC  = 6'b011000; //Decrement
+    DEC  = 6'b011000, //Decrement
+    CALL = 6'b011001, //Call
+    RET  = 6'b011010; //Return
 
 always @(*) begin
     //Begin to check the opcode operands and perform correct operation
@@ -80,6 +86,8 @@ always @(*) begin
             mem_wr           <= 1'b0;
             mem_rd           <= 1'b0;
             mem_data_in      <= 1'b0;
+            pc_next_enable   <= 1'b0;
+            alu_next_enable  <= 1'b0;
         end 
         ADD: begin
             //Set signals for the ADD instruction
@@ -95,6 +103,8 @@ always @(*) begin
             mem_wr           <= 1'b0;
             mem_rd           <= 1'b0;
             mem_data_in      <= 1'b0;
+            pc_next_enable   <= 1'b0;
+            alu_next_enable  <= 1'b0;
         end 
         SUB: begin
             //Set signals for the SUB instruction
@@ -110,6 +120,8 @@ always @(*) begin
             mem_wr           <= 1'b0;
             mem_rd           <= 1'b0;
             mem_data_in      <= 1'b0;
+            pc_next_enable   <= 1'b0;
+            alu_next_enable  <= 1'b0;
         end
         MUL: begin
             //Set signals for the MUL instruction
@@ -125,6 +137,8 @@ always @(*) begin
             mem_wr           <= 1'b0;
             mem_rd           <= 1'b0;
             mem_data_in      <= 1'b0;
+            pc_next_enable   <= 1'b0;
+            alu_next_enable  <= 1'b0;
         end 
         AND: begin
             //Set signals for the AND instruction
@@ -140,6 +154,8 @@ always @(*) begin
             mem_wr           <= 1'b0;
             mem_rd           <= 1'b0;
             mem_data_in      <= 1'b0;
+            pc_next_enable   <= 1'b0;
+            alu_next_enable  <= 1'b0;
         end 
         OR: begin
             //Set signals for the OR instruction
@@ -155,6 +171,8 @@ always @(*) begin
             mem_wr           <= 1'b0;
             mem_rd           <= 1'b0;
             mem_data_in      <= 1'b0;
+            pc_next_enable   <= 1'b0;
+            alu_next_enable  <= 1'b0;
         end
         XOR: begin
             //Set signals for the XOR instruction
@@ -170,6 +188,8 @@ always @(*) begin
             mem_wr           <= 1'b0;
             mem_rd           <= 1'b0;
             mem_data_in      <= 1'b0;
+            pc_next_enable   <= 1'b0;
+            alu_next_enable  <= 1'b0;
         end
         XNOR: begin
             //Set signals for the XNOR instruction
@@ -185,6 +205,8 @@ always @(*) begin
             mem_wr           <= 1'b0;
             mem_rd           <= 1'b0;
             mem_data_in      <= 1'b0;
+            pc_next_enable   <= 1'b0;
+            alu_next_enable  <= 1'b0;
         end
         SHL: begin
             //Set signals for the SHL instruction
@@ -200,6 +222,8 @@ always @(*) begin
             mem_wr           <= 1'b0;
             mem_rd           <= 1'b0;
             mem_data_in      <= 1'b0;
+            pc_next_enable   <= 1'b0;
+            alu_next_enable  <= 1'b0;
         end
         SHR: begin
             //Set signals for the SHR instruction
@@ -215,6 +239,8 @@ always @(*) begin
             mem_wr           <= 1'b0;
             mem_rd           <= 1'b0;
             mem_data_in      <= 1'b0;
+            pc_next_enable   <= 1'b0;
+            alu_next_enable  <= 1'b0;
         end
         JMP: begin
             //Set signals for the JMP instruction
@@ -230,6 +256,8 @@ always @(*) begin
             mem_wr           <= 1'b0;
             mem_rd           <= 1'b0;
             mem_data_in      <= 1'b0;
+            pc_next_enable   <= 1'b0;
+            alu_next_enable  <= 1'b0;
         end
         LUI: begin
             //Set signals for the LUI instruction
@@ -245,6 +273,8 @@ always @(*) begin
             mem_wr           <= 1'b0;
             mem_rd           <= 1'b0;
             mem_data_in      <= 1'b0;
+            pc_next_enable   <= 1'b0;
+            alu_next_enable  <= 1'b0;
         end
         LLI: begin
             //Set signals for the LLI instruction
@@ -260,6 +290,8 @@ always @(*) begin
             mem_wr           <= 1'b0;
             mem_rd           <= 1'b0;
             mem_data_in      <= 1'b0;
+            pc_next_enable   <= 1'b0;
+            alu_next_enable  <= 1'b0;
         end
         CMP: begin
             //Set signals for the CMP instruction
@@ -275,6 +307,8 @@ always @(*) begin
             mem_wr           <= 1'b0;
             mem_rd           <= 1'b0;
             mem_data_in      <= 1'b0;
+            pc_next_enable   <= 1'b0;
+            alu_next_enable  <= 1'b0;
         end
         JEQ: begin
             //Set signals for the JEQ instruction
@@ -290,6 +324,8 @@ always @(*) begin
             mem_wr           <= 1'b0;
             mem_rd           <= 1'b0;
             mem_data_in      <= 1'b0;
+            pc_next_enable   <= 1'b0;
+            alu_next_enable  <= 1'b0;
         end
         JNE: begin
             //Set signals for the JNE instruction
@@ -305,6 +341,8 @@ always @(*) begin
             mem_wr           <= 1'b0;
             mem_rd           <= 1'b0;
             mem_data_in      <= 1'b0;
+            pc_next_enable   <= 1'b0;
+            alu_next_enable  <= 1'b0;
         end
         JB: begin
             //Set signals for the JB instruction
@@ -320,6 +358,8 @@ always @(*) begin
             mem_wr           <= 1'b0;
             mem_rd           <= 1'b0;
             mem_data_in      <= 1'b0;
+            pc_next_enable   <= 1'b0;
+            alu_next_enable  <= 1'b0;
         end
         JBE: begin
             //Set signals for the JBE instruction
@@ -335,6 +375,8 @@ always @(*) begin
             mem_wr           <= 1'b0;
             mem_rd           <= 1'b0;
             mem_data_in      <= 1'b0;
+            pc_next_enable   <= 1'b0;
+            alu_next_enable  <= 1'b0;
         end
         JL: begin
             //Set signals for the JL instruction
@@ -350,6 +392,8 @@ always @(*) begin
             mem_wr           <= 1'b0;
             mem_rd           <= 1'b0;
             mem_data_in      <= 1'b0;
+            pc_next_enable   <= 1'b0;
+            alu_next_enable  <= 1'b0;
         end
         JLE: begin
             //Set signals for the JLE instruction
@@ -365,6 +409,8 @@ always @(*) begin
             mem_wr           <= 1'b0;
             mem_rd           <= 1'b0;
             mem_data_in      <= 1'b0;
+            pc_next_enable   <= 1'b0;
+            alu_next_enable  <= 1'b0;
         end
         LOD: begin 
             //Set signals for the LOD instruction
@@ -380,6 +426,8 @@ always @(*) begin
             mem_wr           <= 1'b0;
             mem_rd           <= 1'b1;
             mem_data_in      <= 1'b1;
+            pc_next_enable   <= 1'b0;
+            alu_next_enable  <= 1'b0;
         end
         STR: begin
             //Set signals for the STR instruction
@@ -395,6 +443,8 @@ always @(*) begin
             mem_wr           <= 1'b1;
             mem_rd           <= 1'b0;
             mem_data_in      <= 1'b0;
+            pc_next_enable   <= 1'b0;
+            alu_next_enable  <= 1'b0;
         end
         INC: begin
             //Set signals for the INC instruction
@@ -410,6 +460,8 @@ always @(*) begin
             mem_wr           <= 1'b0;
             mem_rd           <= 1'b0;
             mem_data_in      <= 1'b0;
+            pc_next_enable   <= 1'b0;
+            alu_next_enable  <= 1'b0;
         end
         DEC: begin
             //Set signals for the DEC instruction
@@ -425,6 +477,42 @@ always @(*) begin
             mem_wr           <= 1'b0;
             mem_rd           <= 1'b0;
             mem_data_in      <= 1'b0;
+            pc_next_enable   <= 1'b0;
+            alu_next_enable  <= 1'b0;
+        end
+        CALL: begin
+            //Set signals for the CALL instruction
+            alu_op           <= FUNC_NOP;
+            alu_src1         <= 5'b0;
+            alu_src2         <= 5'b0;
+            alu_dest         <= 5'b11111; //Store address in R31
+            load_pc          <= 1'b1;
+            load_pc_val      <= instruction[25:0];
+            reg_write_enable <= 1'b1;
+            imm              <= 1'b0;
+            imm_val          <= 32'b0;
+            mem_wr           <= 1'b0;
+            mem_rd           <= 1'b0;
+            mem_data_in      <= 1'b0;
+            pc_next_enable   <= 1'b1;
+            alu_next_enable  <= 1'b0;
+        end
+        RET: begin
+            //Set signals for the RET instruction
+            alu_op           <= FUNC_NOP;
+            alu_src1         <= 5'b11111; //Obtain address in R31
+            alu_src2         <= 5'b0;
+            alu_dest         <= 5'b0;
+            load_pc          <= 1'b0;
+            load_pc_val      <= 26'b0;
+            reg_write_enable <= 1'b0;
+            imm              <= 1'b0;
+            imm_val          <= 32'b0;
+            mem_wr           <= 1'b0;
+            mem_rd           <= 1'b0;
+            mem_data_in      <= 1'b0;
+            pc_next_enable   <= 1'b0;
+            alu_next_enable  <= 1'b1;
         end
     endcase
 end

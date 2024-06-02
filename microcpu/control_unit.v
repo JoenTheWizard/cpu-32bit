@@ -38,7 +38,8 @@ localparam [3:0]
     FUNC_SHL  = 4'b1000,
     FUNC_SHR  = 4'b1001,
     FUNC_INC  = 4'b1010,
-    FUNC_DEC  = 4'b1011;
+    FUNC_DEC  = 4'b1011,
+    FUNC_NOT  = 4'b1100;
 
 //Opcode
 localparam [5:0]
@@ -67,7 +68,8 @@ localparam [5:0]
     INC  = 6'b010111, //Increment
     DEC  = 6'b011000, //Decrement
     CALL = 6'b011001, //Call
-    RET  = 6'b011010; //Return
+    RET  = 6'b011010, //Return
+    NOT  = 6'b011011; //Bitwise Not
 
 always @(*) begin
     //Begin to check the opcode operands and perform correct operation
@@ -469,6 +471,23 @@ always @(*) begin
             alu_src1         <= instruction[25:21];
             alu_src2         <= 5'b0;
             alu_dest         <= instruction[25:21];
+            load_pc          <= 1'b0;
+            load_pc_val      <= 26'b0;
+            reg_write_enable <= 1'b1;
+            imm              <= 1'b0;
+            imm_val          <= 32'b0;
+            mem_wr           <= 1'b0;
+            mem_rd           <= 1'b0;
+            mem_data_in      <= 1'b0;
+            pc_next_enable   <= 1'b0;
+            alu_next_enable  <= 1'b0;
+        end
+        NOT: begin
+            //Set signals for the NOT instruction
+            alu_op           <= FUNC_NOT;
+            alu_src1         <= instruction[25:21];
+            alu_src2         <= 5'b0;
+            alu_dest         <= instruction[20:16];
             load_pc          <= 1'b0;
             load_pc_val      <= 26'b0;
             reg_write_enable <= 1'b1;

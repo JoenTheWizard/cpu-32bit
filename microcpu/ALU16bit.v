@@ -25,7 +25,8 @@ localparam [3:0]
     SHL  = 4'b1000,
     SHR  = 4'b1001,
     INC  = 4'b1010,
-    DEC  = 4'b1011;
+    DEC  = 4'b1011,
+    NOT  = 4'b1100;
 
 //Bit indexes of statuses
 localparam
@@ -52,6 +53,7 @@ always @(*) begin
         SHR:  out <= temp >> b;
         INC:  out <= temp + 1;
         DEC:  out <= temp - 1;
+        NOT:  out <= ~temp;
         default: out <= 16'bx; //Set output to unknown for invalid function codes
     endcase
 end

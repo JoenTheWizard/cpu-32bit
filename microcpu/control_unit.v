@@ -69,7 +69,8 @@ localparam [5:0]
     DEC  = 6'b011000, //Decrement
     CALL = 6'b011001, //Call
     RET  = 6'b011010, //Return
-    NOT  = 6'b011011; //Bitwise Not
+    NOT  = 6'b011011, //Bitwise Not
+    MOV  = 6'b011100; //Move
 
 always @(*) begin
     //Begin to check the opcode operands and perform correct operation
@@ -532,6 +533,23 @@ always @(*) begin
             mem_data_in      <= 1'b0;
             pc_next_enable   <= 1'b0;
             alu_next_enable  <= 1'b1;
+        end
+        MOV: begin
+            //Set signals for the MOV instruction
+            alu_op           <= FUNC_NOP; //No ALU operation
+            alu_src1         <= instruction[25:21];
+            alu_src2         <= 5'b0;
+            alu_dest         <= instruction[20:16];
+            load_pc          <= 1'b0;
+            load_pc_val      <= 26'b0;
+            reg_write_enable <= 1'b1;
+            imm              <= 1'b0;
+            imm_val          <= 32'b0;
+            mem_wr           <= 1'b0;
+            mem_rd           <= 1'b0;
+            mem_data_in      <= 1'b0;
+            pc_next_enable   <= 1'b0;
+            alu_next_enable  <= 1'b0;
         end
     endcase
 end

@@ -16,6 +16,12 @@ Things to to add:
 - Pipelining
 - Implemention of more instructions (PUSH, POP, JR etc)
 
+Within the `readmem/` folder, it contains:
+
+- `data.mem`: The memory set for the data memory in hex format (the RAM)
+- `instructions.mem`: The memory set for the program memory in binary format (the ROM)
+- `registers.mem`: The memory set for the file registers in hex format
+
 ## test-modules
 These are just test modules for testing and is not fully related to the CPU. I kept it though for future reference. They can be ran with `make TARGET=[folder]` where `[folder]` is the folder that contains the module and its corresponding testbench. The test modules include:
 

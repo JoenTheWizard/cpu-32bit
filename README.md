@@ -23,5 +23,7 @@ Very small unfinished implementation of a 32-bit CPU. So far it can do operation
 
 Things to to add:
 
-- Implement the rest of instructions (CALL, RET, INC etc)
+- Assembler (not related to the CPU)
+- Interrupts
 - Pipelining
+- Implement the rest of instructions (PUSH, POP, JR etc)

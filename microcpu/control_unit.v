@@ -70,7 +70,14 @@ localparam [5:0]
     CALL = 6'b011001, //Call
     RET  = 6'b011010, //Return
     NOT  = 6'b011011, //Bitwise Not
-    MOV  = 6'b011100; //Move
+    MOV  = 6'b011100, //Move
+    JMPR = 6'b011101, //Jump at Register
+    JEQR = 6'b011110, //Jump If Equal at Register
+    JNER = 6'b011111, //Jump If Not Equal at Register
+    JBR  = 6'b100000, //Jump If Greater at Register
+    JBER = 6'b100001, //Jump If Greater Equal at Register
+    JLR  = 6'b100010, //Jump If Less at Register
+    JLER = 6'b100011; //Jump If Less Equal at Register
 
 always @(*) begin
     //Begin to check the opcode operands and perform correct operation
@@ -550,6 +557,125 @@ always @(*) begin
             mem_data_in      <= 1'b0;
             pc_next_enable   <= 1'b0;
             alu_next_enable  <= 1'b0;
+        end
+        JMPR: begin
+            //Set signals for the JMPR instruction
+            alu_op           <= FUNC_NOP; //Set to NOP since no operation is being done in JMP
+            alu_src1         <= instruction[25:21];
+            alu_src2         <= 5'b0;
+            alu_dest         <= 5'b0;
+            load_pc          <= 1'b0;
+            load_pc_val      <= 26'b0;
+            reg_write_enable <= 1'b0;
+            imm              <= 1'b0;
+            imm_val          <= 32'b0;
+            mem_wr           <= 1'b0;
+            mem_rd           <= 1'b0;
+            mem_data_in      <= 1'b0;
+            pc_next_enable   <= 1'b0;
+            alu_next_enable  <= 1'b1;
+        end
+        JEQR: begin
+            //Set signals for the JEQR instruction
+            alu_op           <= FUNC_NOP; //No ALU operation
+            alu_src1         <= instruction[25:21];
+            alu_src2         <= 5'b0;
+            alu_dest         <= 5'b0;
+            load_pc          <= 1'b0;
+            load_pc_val      <= 26'b0;
+            reg_write_enable <= 1'b0;
+            imm              <= 1'b0;
+            imm_val          <= 32'b0;
+            mem_wr           <= 1'b0;
+            mem_rd           <= 1'b0;
+            mem_data_in      <= 1'b0;
+            pc_next_enable   <= 1'b0;
+            alu_next_enable  <= status_reg[0]; //Jump if equ flag is set
+        end
+        JNER: begin
+            //Set signals for the JNER instruction
+            alu_op           <= FUNC_NOP; //No ALU operation
+            alu_src1         <= instruction[25:21];
+            alu_src2         <= 5'b0;
+            alu_dest         <= 5'b0;
+            load_pc          <= 1'b0;
+            load_pc_val      <= 26'b0;
+            reg_write_enable <= 1'b0;
+            imm              <= 1'b0;
+            imm_val          <= 32'b0;
+            mem_wr           <= 1'b0;
+            mem_rd           <= 1'b0;
+            mem_data_in      <= 1'b0;
+            pc_next_enable   <= 1'b0;
+            alu_next_enable  <= status_reg[1]; //Jump if nequ flag is set
+        end
+        JBR: begin
+            //Set signals for the JBR instruction
+            alu_op           <= FUNC_NOP; //No ALU operation
+            alu_src1         <= instruction[25:21];
+            alu_src2         <= 5'b0;
+            alu_dest         <= 5'b0;
+            load_pc          <= 1'b0;
+            load_pc_val      <= 26'b0;
+            reg_write_enable <= 1'b0;
+            imm              <= 1'b0;
+            imm_val          <= 32'b0;
+            mem_wr           <= 1'b0;
+            mem_rd           <= 1'b0;
+            mem_data_in      <= 1'b0;
+            pc_next_enable   <= 1'b0;
+            alu_next_enable  <= status_reg[2]; //Jump if bigger flag is set
+        end
+        JBER: begin
+            //Set signals for the JBR instruction
+            alu_op           <= FUNC_NOP; //No ALU operation
+            alu_src1         <= instruction[25:21];
+            alu_src2         <= 5'b0;
+            alu_dest         <= 5'b0;
+            load_pc          <= 1'b0;
+            load_pc_val      <= 26'b0;
+            reg_write_enable <= 1'b0;
+            imm              <= 1'b0;
+            imm_val          <= 32'b0;
+            mem_wr           <= 1'b0;
+            mem_rd           <= 1'b0;
+            mem_data_in      <= 1'b0;
+            pc_next_enable   <= 1'b0;
+            alu_next_enable  <= status_reg[3]; //Jump if bigger equal flag is set
+        end
+        JLR: begin
+            //Set signals for the JBR instruction
+            alu_op           <= FUNC_NOP; //No ALU operation
+            alu_src1         <= instruction[25:21];
+            alu_src2         <= 5'b0;
+            alu_dest         <= 5'b0;
+            load_pc          <= 1'b0;
+            load_pc_val      <= 26'b0;
+            reg_write_enable <= 1'b0;
+            imm              <= 1'b0;
+            imm_val          <= 32'b0;
+            mem_wr           <= 1'b0;
+            mem_rd           <= 1'b0;
+            mem_data_in      <= 1'b0;
+            pc_next_enable   <= 1'b0;
+            alu_next_enable  <= status_reg[4]; //Jump if less flag is set
+        end
+        JLER: begin
+            //Set signals for the JBR instruction
+            alu_op           <= FUNC_NOP; //No ALU operation
+            alu_src1         <= instruction[25:21];
+            alu_src2         <= 5'b0;
+            alu_dest         <= 5'b0;
+            load_pc          <= 1'b0;
+            load_pc_val      <= 26'b0;
+            reg_write_enable <= 1'b0;
+            imm              <= 1'b0;
+            imm_val          <= 32'b0;
+            mem_wr           <= 1'b0;
+            mem_rd           <= 1'b0;
+            mem_data_in      <= 1'b0;
+            pc_next_enable   <= 1'b0;
+            alu_next_enable  <= status_reg[5]; //Jump if less equal flag is set
         end
     endcase
 end

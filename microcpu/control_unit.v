@@ -627,7 +627,7 @@ always @(*) begin
             alu_next_enable  <= status_reg[2]; //Jump if bigger flag is set
         end
         JBER: begin
-            //Set signals for the JBR instruction
+            //Set signals for the JBER instruction
             alu_op           <= FUNC_NOP; //No ALU operation
             alu_src1         <= instruction[25:21];
             alu_src2         <= 5'b0;
@@ -644,7 +644,7 @@ always @(*) begin
             alu_next_enable  <= status_reg[3]; //Jump if bigger equal flag is set
         end
         JLR: begin
-            //Set signals for the JBR instruction
+            //Set signals for the JLR instruction
             alu_op           <= FUNC_NOP; //No ALU operation
             alu_src1         <= instruction[25:21];
             alu_src2         <= 5'b0;
@@ -661,7 +661,7 @@ always @(*) begin
             alu_next_enable  <= status_reg[4]; //Jump if less flag is set
         end
         JLER: begin
-            //Set signals for the JBR instruction
+            //Set signals for the JLER instruction
             alu_op           <= FUNC_NOP; //No ALU operation
             alu_src1         <= instruction[25:21];
             alu_src2         <= 5'b0;

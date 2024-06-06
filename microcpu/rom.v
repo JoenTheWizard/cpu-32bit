@@ -3,8 +3,8 @@ module rom(
     output reg [31:0] data_out
 );
 
-//Memory size of 256 words with 16-bit instruction width (2^8 available words) 
-reg [31:0] mem[0:8192];
+//Memory size of 8192 words with 32-bit instruction width (2^13 available dwords) 
+reg [31:0] mem[0:8191];
 
 //Read from file to initialize the instructions
 initial begin

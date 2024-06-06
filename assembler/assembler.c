@@ -41,17 +41,19 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
+    //Output file
+    if (!output_file) {
+        fprintf(stderr, "Error: A filename is required!\n");
+        return 1;
+    }
+
     //Verbose mode
     if (verbose) {
         printf("[+] Verbose mode enabled\n");
     }
 
-    //Output file
-    if (output_file) {
-        printf("[+] Output file: %s\n", output_filename);
-    }
-
     //Do the Assembling process here...
+    fprintf(stdout, "[+] Output file: %s\n", output_filename);
     fprintf(stdout, "[+] Assembling\n");
 
     return 0;

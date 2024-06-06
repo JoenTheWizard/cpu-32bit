@@ -13,7 +13,7 @@ module control_unit(
 
     //Branching specific output
     output reg        load_pc,
-    output reg [25:0] load_pc_val,
+    output reg [31:0] load_pc_val,
 
     //Read or write memory
     output reg        mem_rd,

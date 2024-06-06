@@ -3,7 +3,7 @@ module cpu(
   input             reset,
   input  [31:0]     instruction,
   input  [31:0]     data_mem_out,
-  output [25:0]     pc_out,
+  output [31:0]     pc_out,
 
   output            mem_rd,
   output            mem_wr,
@@ -25,7 +25,7 @@ dest: The destination register for the result
 */
 
 //Output of program counter
-wire [25:0] count_next;
+wire [31:0] count_next;
 wire pc_next_enable;
 
 //Outputs from the file register
@@ -38,7 +38,7 @@ wire [7:0]  status_reg;
 //Outputs from control unit
 wire [3:0]  alu_op;
 wire [4:0]  alu_src1, alu_src2, alu_dest;
-wire [25:0] load_pc_val;
+wire [31:0] load_pc_val;
 wire [31:0] imm_val;
 wire load_pc, reg_write_enable, imm, mem_data_in, alu_next_enable;
 

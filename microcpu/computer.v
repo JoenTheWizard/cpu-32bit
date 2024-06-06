@@ -7,7 +7,7 @@ module computer(
 wire [31:0] instruction;
 
 //Obtain the program counter from the CPU
-wire [25:0] program_counter;
+wire [31:0] program_counter;
 
 //Obtain the memory access of RAM from CPU
 wire [11:0] ram_addr;

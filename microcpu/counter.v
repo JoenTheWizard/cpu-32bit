@@ -1,14 +1,14 @@
 module counter(
   input clk, input reset,
 
-  input load,   input [25:0] load_val,
-  input alu_in, input [25:0] alu_val,
+  input load,   input [31:0] load_val,
+  input alu_in, input [31:0] alu_val,
 
-  output reg [25:0] count,
-  output reg [25:0] count_next
+  output reg [31:0] count,
+  output reg [31:0] count_next
 );
 
-reg [25:0] count_reg;
+reg [31:0] count_reg;
 
 always @(posedge clk) begin
   if (reset) begin

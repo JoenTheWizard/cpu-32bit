@@ -2,7 +2,7 @@ module rom # (
     parameter ADDR_WIDTH = 13, //No. of addressing bits (must be less than 'address' bit length)
     parameter DATA_WIDTH = 32  //Width of data bits
 ) (
-    input      [31:0] address, //Assuming 32-bit address space
+    input      [31:0]           address, //Assuming 32-bit address space
     output reg [DATA_WIDTH-1:0] data_out
 );
 

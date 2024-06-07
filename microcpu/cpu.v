@@ -1,10 +1,10 @@
 module cpu(
   input             clk, 
   input             reset,
-  input  [31:0]     instruction,
-  input  [31:0]     data_mem_out,
-  output [31:0]     pc_out,
+  input      [31:0] instruction,
+  input      [31:0] data_mem_out,
 
+  output     [31:0] pc_out,
   output            mem_rd,
   output            mem_wr,
   output reg [31:0] data_mem_in,

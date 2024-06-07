@@ -1,2 +1,2 @@
-test-modules/build/
-microcpu/build/
+#Ignore build directories
+**/build/

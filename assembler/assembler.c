@@ -34,27 +34,24 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    //Check if there are any remaining non-option arguments
-    if (optind < argc) {
-        fprintf(stderr, "Error: Non-option arguments '%s' are not allowed\n", argv[optind]);
-        fprintf(stderr, "Usage: %s [-v] [-o filename]\n", argv[0]);
+    //Check if an input file is provided
+    if (optind >= argc) {
+        fprintf(stderr, "[-] Expected input file after options\n");
         return 1;
     }
 
-    //Output file
-    if (!output_file) {
-        fprintf(stderr, "Error: A filename is required!\n");
-        return 1;
+    //Specified output file
+    if (output_file) {
+        fprintf(stdout, "[+] Output filename: %s\n", output_filename);
     }
 
     //Verbose mode
     if (verbose) {
-        printf("[+] Verbose mode enabled\n");
+        fprintf(stdout, "[+] Verbose mode enabled\n");
     }
 
     //Do the Assembling process here...
-    fprintf(stdout, "[+] Output file: %s\n", output_filename);
-    fprintf(stdout, "[+] Assembling\n");
+    fprintf(stdout, "[+] Assembling file '%s'\n", argv[optind]);
 
     return 0;
 }

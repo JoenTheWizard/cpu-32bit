@@ -10,7 +10,7 @@ wire [31:0] instruction;
 wire [31:0] program_counter;
 
 //Obtain the memory access of RAM from CPU
-wire [11:0] ram_addr;
+wire [31:0] ram_addr;
 
 //Obtain RAM read or write
 wire mem_rd, mem_wr;

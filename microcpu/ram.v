@@ -1,16 +1,20 @@
-module ram(
-   input clk,
-   input [11:0] address, //Assuming 8-bit address space
-   input [31:0] data_in,
+module ram # (
+    parameter ADDR_WIDTH = 14, //Number of addressing bits (must be less than 'address' bit length)
+    parameter DATA_WIDTH = 32  //Width of data bits
+) (
+   input                            clk,
 
-   input        write_enable,
-   input        read_enable,
+   input [31:0]                     address, //Assuming 32-bit address space
+   input [DATA_WIDTH-1:0]           data_in,
 
-   output reg [31:0] data_out
+   input                            write_enable,
+   input                            read_enable,
+
+   output reg [DATA_WIDTH-1:0]      data_out
 );
 
-//Memory size of 256 words with 16-bit instruction width (2^8 available words) 
-reg [31:0] mem[0:2047];
+//Memory size of 16384 words with 32-bit instruction width (2^14 available dwords)
+reg [DATA_WIDTH-1:0] mem[0:(2**ADDR_WIDTH-1)];
 
 //Read from file to initialize the instructions
 initial begin
@@ -20,16 +24,15 @@ end
 always @(*) begin
    //On read
    if (read_enable) begin
-      data_out <= mem[address];
+      data_out <= mem[address[ADDR_WIDTH-1:0]];
    end
 end
 
 always @(posedge clk) begin
    //On write
    if (write_enable) begin
-      mem[address] <= data_in;
+      mem[address[ADDR_WIDTH-1:0]] <= data_in;
    end
-   //$display("Mem 1: %h",  mem[1]);
 end
 
 endmodule

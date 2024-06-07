@@ -8,7 +8,7 @@ module cpu(
   output            mem_rd,
   output            mem_wr,
   output reg [31:0] data_mem_in,
-  output reg [11:0] ram_addr
+  output reg [31:0] ram_addr
 );
 
 /*

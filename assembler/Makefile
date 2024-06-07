@@ -6,3 +6,6 @@ asm: $(BUILD_DIR)
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
+
+clean:
+	rm $(BUILD_DIR)/*

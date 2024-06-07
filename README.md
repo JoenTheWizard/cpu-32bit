@@ -11,10 +11,10 @@ Very small unfinished implementation of a 32-bit CPU done in Verilog. The simula
 
 Things to to add:
 
-- Assembler (not related to the CPU)
+- Implemention of more instructions maybe? (PUSH, POP etc)
 - Interrupts
 - Pipelining
-- Implemention of more instructions (PUSH, POP, JR etc)
+- Assembler (not fully related to the CPU implementation)
 
 Within the `readmem/` folder, it contains:
 

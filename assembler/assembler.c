@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <unistd.h>
+#include "includes/tokenizer.h"
 
 // *** Will start to work on the assembler once the CPU is refined. ***
 
@@ -52,6 +53,7 @@ int main(int argc, char *argv[]) {
 
     //Do the Assembling process here...
     fprintf(stdout, "[+] Assembling file '%s'\n", argv[optind]);
+    read_file(argv[optind]);
 
     return 0;
 }

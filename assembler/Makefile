@@ -2,7 +2,7 @@ BUILD_DIR=build
 CC=gcc
 
 asm: $(BUILD_DIR)
-	$(CC) *.c -o $(BUILD_DIR)/asm
+	$(CC) *.c includes/*.c -o $(BUILD_DIR)/asm
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)

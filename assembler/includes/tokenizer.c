@@ -86,11 +86,23 @@ void Assemble(const char *filename) {
         return;
     }
 
-    char ch;
+    TokenList *token_list = InitializeTokenList();
+
+    if (!token_list) {
+        fprintf(stderr, "[-] Failed to initialize token list\n");
+        fclose(fasm);
+        return;
+    }
+
+    char   ch;
+    char   buffer[128];
+    size_t buffer_pos;
 
     while ((ch = fgetc(fasm)) != EOF) {
         fprintf(stdout, "%c", ch);
     }
+
+    FreeTokenList(token_list);
 
     fclose(fasm);
 }

@@ -6,9 +6,9 @@
 
 int main(int argc, char *argv[]) {
 
-    int opt;
-    int verbose           = 0;
-    int output_file       = 0;
+    int   opt;
+    int   verbose         = 0;
+    int   output_file     = 0;
     char *output_filename = NULL;
 
     //No argument passed
@@ -53,7 +53,8 @@ int main(int argc, char *argv[]) {
 
     //Do the Assembling process here...
     fprintf(stdout, "[+] Assembling file '%s'\n", argv[optind]);
-    read_file(argv[optind]);
+
+    Assemble(argv[optind]);
 
     return 0;
 }

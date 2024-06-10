@@ -17,7 +17,7 @@ initial begin
     #2
     reset = 0;
 
-    #30
+    #40
 
     $finish();
 end

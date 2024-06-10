@@ -31,6 +31,9 @@ wire pc_next_enable;
 //Outputs from the file register
 wire [31:0] reg_data1, reg_data2;
 
+//Outputs from instruction register
+wire [31:0] ir_instruction;
+
 //Outputs from the ALU
 wire [31:0] alu_result;
 wire [7:0]  status_reg;
@@ -73,6 +76,14 @@ file_register register_file(
     .alu_out2(reg_data2)
 );
 
+//Instruction Register
+instruction_register register_instruction(
+  .clk(clk),
+  .flush(1'b0),
+  .in_instruction(instruction),
+  .out_instruction(ir_instruction)
+);
+
 //Create ALU
 ALU16bit alu (
     .clk(clk),
@@ -87,7 +98,7 @@ ALU16bit alu (
 
 //Control Unit
 control_unit ControlUnit(
-    .instruction(instruction),
+    .instruction(ir_instruction),
     .status_reg(status_reg),
     .alu_op(alu_op),
     .alu_src1(alu_src1),

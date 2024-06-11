@@ -78,11 +78,48 @@ void FreeTokenList(TokenList *list) {
     free(list);
 }
 
-void Assemble(const char *filename) {
+char* ReadFile(const char *filename) {
     FILE *fasm = fopen(filename, "r");
 
     if (fasm == NULL) {
         fprintf(stderr, "[-] Unable to find file '%s'\n", filename);
+        return NULL;
+    }
+
+    //Find size of file
+    fseek(fasm, 0, SEEK_END);
+    long fasm_size = ftell(fasm);
+    rewind(fasm);
+
+    //Allocate memory
+    char *buffer = malloc((fasm_size + 1) * sizeof(char));
+    if (buffer == NULL) {
+        fprintf(stderr, "[-] Failed to allocate file buffer memory\n");
+        fclose(fasm);
+        return NULL;
+    }
+
+    //Read file into buffer
+    size_t bytes_read = fread(buffer, sizeof(char), fasm_size, fasm);
+    if (bytes_read != fasm_size) {
+        fprintf(stderr, "[-] Failed to read entire file size\n");
+        free(buffer);
+        fclose(fasm);
+        return NULL;
+    }
+
+    buffer[fasm_size] = '\0';
+
+    fclose(fasm);
+
+    return buffer;
+}
+
+void Assemble(const char *filename) {
+    char *fasm_content = ReadFile(filename);
+
+    if (fasm_content == NULL) {
+        fprintf(stderr, "[-] There was an error when trying to read the file '%s'\n", filename);
         return;
     }
 
@@ -90,19 +127,13 @@ void Assemble(const char *filename) {
 
     if (!token_list) {
         fprintf(stderr, "[-] Failed to initialize token list\n");
-        fclose(fasm);
+        free(fasm_content);
         return;
     }
 
-    char   ch;
-    char   buffer[128];
-    size_t buffer_pos;
+    fprintf(stdout, "%s\n", fasm_content);
 
-    while ((ch = fgetc(fasm)) != EOF) {
-        fprintf(stdout, "%c", ch);
-    }
+    free(fasm_content);
 
     FreeTokenList(token_list);
-
-    fclose(fasm);
 }

@@ -57,7 +57,7 @@ void PrintTokenList(TokenList *list) {
     }
 
     while (cur != NULL) {
-        printf("TokType: %d - %s\n", cur->type, cur->value);
+        printf("TokType: %d - %s (l: %d)\n", cur->type, cur->value, cur->length);
         cur = cur->next;
     } 
 }
@@ -115,6 +115,76 @@ char* ReadFile(const char *filename) {
     return buffer;
 }
 
+int ParseToken(const char *source, TokenList *list, int position) {
+    int end_pos = position, start_pos = position;
+    TokenType token_type;
+
+    //Skip whitespace characters (except for new line for the assembler)
+    while (isspace(source[start_pos]) && source[start_pos] != '\n')
+        start_pos++;
+
+    end_pos = start_pos;
+
+    //Determine token type
+    if (isalpha(source[start_pos])) {
+        //Label or instruction
+        end_pos++;
+        while (isalnum(source[end_pos]) || source[end_pos] == '_')
+            end_pos++;
+        token_type = TOKEN_INSTRUCTION; //Assume instruction by default
+
+        //Check if it's a label
+        if (source[end_pos] == ':') {
+            token_type = TOKEN_LABEL;
+            end_pos++;
+        }
+    } 
+    else if (isdigit(source[start_pos])) {
+        //Immediate value
+        token_type = TOKEN_IMMEDIATE;
+        end_pos++;
+        while (isdigit(source[end_pos]))
+            end_pos++;
+    } 
+    else {
+        //Special characters
+        switch (source[start_pos]) {
+            case ',':
+                token_type = TOKEN_COMMA;
+                end_pos++;
+                break;
+            case '\n':
+                token_type = TOKEN_NEWLINE;
+                end_pos++;
+                break;
+            case '\0':
+                token_type = TOKEN_EOF;
+                end_pos++;
+                break;
+            default:
+                token_type = TOKEN_INVALID;
+                end_pos++;
+                break;
+        }
+    }
+
+    size_t token_length = end_pos - start_pos;
+    AddTokenList(list, token_type, &source[start_pos], token_length);
+
+    return end_pos;
+}
+
+int Tokenize(const char *source, TokenList *list) {
+    int position      = 0;
+    int source_length = strlen(source);
+
+    while (position < source_length) {
+        position = ParseToken(source, list, position);
+    }
+
+    return 0;
+}
+
 void Assemble(const char *filename) {
     char *fasm_content = ReadFile(filename);
 
@@ -131,7 +201,9 @@ void Assemble(const char *filename) {
         return;
     }
 
-    fprintf(stdout, "%s\n", fasm_content);
+    Tokenize(fasm_content, token_list);
+
+    PrintTokenList(token_list);
 
     free(fasm_content);
 

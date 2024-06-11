@@ -10,7 +10,7 @@ TokenList *InitializeTokenList(void) {
     return list;
 }
 
-TokenNode *InitializeTokenNode(TokenType type, char *value, size_t length) {
+TokenNode *InitializeTokenNode(TokenType type, const char *value, size_t length) {
     TokenNode *node = (TokenNode*)malloc(sizeof(TokenNode));
 
     if (!node)
@@ -33,7 +33,7 @@ TokenNode *InitializeTokenNode(TokenType type, char *value, size_t length) {
     return node;
 }
 
-void AddTokenList(TokenList *list, TokenType type, char *value, size_t length) {
+void AddTokenList(TokenList *list, TokenType type, const char *value, size_t length) {
     TokenNode *cur = NULL;
     
     if (list->head_token == NULL) {
@@ -50,14 +50,14 @@ void AddTokenList(TokenList *list, TokenType type, char *value, size_t length) {
 }
 
 void PrintTokenList(TokenList *list) {
-    TokenNode* cur = list->head_token;
+    TokenNode *cur = list->head_token;
 
     if (list->head_token == NULL) {
         return;
     }
 
     while (cur != NULL) {
-        printf("TokType: %d - %s (l: %d)\n", cur->type, cur->value, cur->length);
+        printf("TokType: %d - %s (l: %ld)\n", cur->type, cur->value, cur->length);
         cur = cur->next;
     } 
 }
@@ -78,7 +78,7 @@ void FreeTokenList(TokenList *list) {
     free(list);
 }
 
-char* ReadFile(const char *filename) {
+char *ReadFile(const char *filename) {
     FILE *fasm = fopen(filename, "r");
 
     if (fasm == NULL) {

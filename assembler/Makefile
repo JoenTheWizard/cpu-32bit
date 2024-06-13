@@ -2,7 +2,6 @@ CC=gcc
 
 BUILD_DIR=build
 
-
 #Check if DEBUG is set
 ifeq ($(DEBUG),1)
 	DEBUG_FLAGS=-g -fsanitize=undefined -Wall -Wextra -pedantic

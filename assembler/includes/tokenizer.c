@@ -1,5 +1,16 @@
 #include "tokenizer.h"
 
+const char *tokenTypes[] = {
+    "LABEL",
+    "INSTRUCTION",
+    "REGISTER",
+    "IMMEDIATE",
+    "COMMA",
+    "NEWLINE",
+    "EOF",
+    "INVALID"
+};
+
 TokenList *InitializeTokenList(void) {
     TokenList *list = (TokenList*)malloc(sizeof(TokenList));
 
@@ -57,7 +68,7 @@ void PrintTokenList(TokenList *list) {
     }
 
     while (cur != NULL) {
-        printf("TokType: %d - %s (l: %ld)\n", cur->type, cur->value, cur->length);
+        printf("TokType: %s - %s (l: %ld)\n", tokenTypes[cur->type], cur->value, cur->length);
         cur = cur->next;
     } 
 }
@@ -176,7 +187,7 @@ int ParseToken(const char *source, TokenList *list, int position) {
 
 int Tokenize(const char *source, TokenList *list) {
     int position      = 0;
-    int source_length = strlen(source);
+    int source_length = strlen(source) + 1;
 
     while (position < source_length) {
         position = ParseToken(source, list, position);

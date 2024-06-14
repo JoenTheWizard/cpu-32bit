@@ -128,6 +128,24 @@ char *ReadFile(const char *filename) {
     return buffer;
 }
 
+//TODO: Set the memory in each Token Node
+void SetMemoryToken(TokenType token_type, const char *value, int *memory) {
+    if (token_type == TOKEN_INVALID) {
+        fprintf(stderr, "[-] Error: Unknown token '%s'\n", value);
+        return;
+    }
+
+    //INSTRUCTION: Set the memory value to the mapped instruction
+    if (token_type == TOKEN_INSTRUCTION) {
+        int i;
+        for (i = 0; i < sizeof(instruction_map) / sizeof(instruction_map[0]); i++) {
+            if (!strcmp(value, instruction_map[i].instruction)) {
+                *memory = instruction_map[i].memory_value;
+            }
+        }
+    }
+}
+
 int ParseToken(const char *source, TokenList *list, int position) {
     int end_pos = position, start_pos = position;
     TokenType token_type;

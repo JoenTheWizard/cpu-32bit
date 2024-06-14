@@ -39,6 +39,8 @@ TokenNode *InitializeTokenNode(TokenType type, const char *value, size_t length)
 
     node->length = length;
 
+    node->memory = 0;
+
     node->next = NULL;
 
     return node;
@@ -68,7 +70,7 @@ void PrintTokenList(TokenList *list) {
     }
 
     while (cur != NULL) {
-        printf("TokType: %s - %s (l: %ld)\n", tokenTypes[cur->type], cur->value, cur->length);
+        printf("TokType: %s - %s (l: %ld) %d\n", tokenTypes[cur->type], cur->value, cur->length, cur->memory);
         cur = cur->next;
     } 
 }

@@ -25,6 +25,7 @@ typedef struct Node {
     TokenType    type;
     char        *value;
     size_t       length;
+    int32_t      memory;
     struct Node *next;
 } TokenNode;
 

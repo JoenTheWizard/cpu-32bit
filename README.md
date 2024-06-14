@@ -25,6 +25,9 @@ Within the `readmem/` folder, it contains:
 ## assembler
 This will be the assembler program to output the binary file for the simulation. It will be worked on once the CPU has been finished.
 
+Usage:
+`build/asm [-v] [-o filename] input_file`
+
 ## test-modules
 These are just test modules for testing and is not fully related to the CPU. I kept it though for future reference. They can be ran with `make TARGET=[folder]` where `[folder]` is the folder that contains the module and its corresponding testbench. The test modules include:
 

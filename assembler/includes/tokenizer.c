@@ -146,6 +146,7 @@ void SetMemoryToken(TokenType token_type, const char *value, int *memory) {
     }
 }
 
+//TODO: Set the memory in each Token Node
 int ParseToken(const char *source, TokenList *list, int position) {
     int end_pos = position, start_pos = position;
     TokenType token_type;

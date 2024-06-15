@@ -153,7 +153,7 @@ void SetMemoryTokenList(TokenList *list) {
             }
         }
 
-        //IMMEDIATE: Set the memory value to the mapped instruction
+        //IMMEDIATE: Set the memory value to the value stored in token
         if (cur->type == TOKEN_IMMEDIATE) {
             char *endptr;
             uint32_t imm = strtoul(cur->value, &endptr, 0);

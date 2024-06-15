@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <ctype.h>
 #include <string.h>
 
@@ -25,7 +26,7 @@ typedef struct Node {
     TokenType    type;
     char        *value;
     size_t       length;
-    int32_t      memory;
+    uint32_t     memory;
     struct Node *next;
 } TokenNode;
 

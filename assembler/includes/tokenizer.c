@@ -70,7 +70,7 @@ void PrintTokenList(TokenList *list) {
     }
 
     while (cur != NULL) {
-        printf("TokType: %s - %s (l: %ld) (mem: %d)\n",
+        printf("TokType: %s - %s (l: %ld) (mem: %u)\n",
                tokenTypes[cur->type], cur->value, cur->length, cur->memory);
         cur = cur->next;
     } 
@@ -151,6 +151,17 @@ void SetMemoryTokenList(TokenList *list) {
                     cur->memory = instruction_map[i].memory_value;
                 }
             }
+        }
+
+        //IMMEDIATE: Set the memory value to the mapped instruction
+        if (cur->type == TOKEN_IMMEDIATE) {
+            char *endptr;
+            uint32_t imm = strtoul(cur->value, &endptr, 0);
+
+            if (*endptr == '\0') 
+                cur->memory = imm;
+            else 
+                fprintf(stderr, "[-] Error: Invalid immediate value '%s'\n", endptr);
         }
 
         cur = cur->next;

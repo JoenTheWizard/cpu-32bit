@@ -70,7 +70,8 @@ void PrintTokenList(TokenList *list) {
     }
 
     while (cur != NULL) {
-        printf("TokType: %s - %s (l: %ld) %d\n", tokenTypes[cur->type], cur->value, cur->length, cur->memory);
+        printf("TokType: %s - %s (l: %ld) (mem: %d)\n",
+               tokenTypes[cur->type], cur->value, cur->length, cur->memory);
         cur = cur->next;
     } 
 }
@@ -129,21 +130,31 @@ char *ReadFile(const char *filename) {
 }
 
 //TODO: Set the memory in each Token Node
-void SetMemoryToken(TokenType token_type, const char *value, int *memory) {
-    if (token_type == TOKEN_INVALID) {
-        fprintf(stderr, "[-] Error: Unknown token '%s'\n", value);
+void SetMemoryTokenList(TokenList *list) {
+    TokenNode *cur = list->head_token;
+
+    if (list->head_token == NULL) {
         return;
     }
 
-    //INSTRUCTION: Set the memory value to the mapped instruction
-    if (token_type == TOKEN_INSTRUCTION) {
-        int i;
-        for (i = 0; i < sizeof(instruction_map) / sizeof(instruction_map[0]); i++) {
-            if (!strcmp(value, instruction_map[i].instruction)) {
-                *memory = instruction_map[i].memory_value;
+    while (cur != NULL) {
+        if (cur->type == TOKEN_INVALID) {
+            fprintf(stderr, "[-] Error: Unknown token '%s'\n", cur->value);
+            return;
+        }
+
+        //INSTRUCTION: Set the memory value to the mapped instruction
+        if (cur->type == TOKEN_INSTRUCTION) {
+            size_t i;
+            for (i = 0; i < sizeof(instruction_map) / sizeof(instruction_map[0]); i++) {
+                if (!strcmp(cur->value, instruction_map[i].instruction)) {
+                    cur->memory = instruction_map[i].memory_value;
+                }
             }
         }
-    }
+
+        cur = cur->next;
+    } 
 }
 
 //TODO: Set the memory in each Token Node
@@ -234,6 +245,8 @@ void Assemble(const char *filename) {
     }
 
     Tokenize(fasm_content, token_list);
+
+    SetMemoryTokenList(token_list);
 
     PrintTokenList(token_list);
 

@@ -26,6 +26,7 @@ Within the `readmem/` folder, it contains:
 This will be the assembler program to output the binary file for the simulation. It will be worked on once the CPU has been finished.
 
 Usage:
+
 `build/asm [-v] [-o filename] input_file`
 
 ## test-modules

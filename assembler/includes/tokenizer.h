@@ -9,6 +9,8 @@
 
 // *** Will need to reorganize some of this ***
 
+#define MAX_REGISTER 31
+
 //All available types of Tokens
 typedef enum {
     TOKEN_LABEL,

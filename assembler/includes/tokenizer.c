@@ -188,7 +188,7 @@ void SetMemoryTokenList(TokenList *list) {
             char *endptr;
             uint32_t imm = strtoul(cur->value + 1, &endptr, 0);
 
-            if (*endptr == '\0' && imm <= 31) {
+            if (*endptr == '\0' && imm <= MAX_REGISTER) {
                 cur->memory = imm;
             } else {
                 fprintf(stderr, "[-] Error: Invalid register value '%s'\n", cur->value);

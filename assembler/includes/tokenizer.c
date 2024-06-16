@@ -158,6 +158,7 @@ void SetMemoryTokenList(TokenList *list) {
         //INVALID: Invalid tokens return error
         if (cur->type == TOKEN_INVALID) {
             fprintf(stderr, "[-] Error: Unknown token '%s'\n", cur->value);
+            FreeTokenList(label_list);
             return;
         }
 
@@ -180,6 +181,18 @@ void SetMemoryTokenList(TokenList *list) {
                 cur->memory = imm;
             else 
                 fprintf(stderr, "[-] Error: Invalid immediate value '%s'\n", endptr);
+        }
+
+        //REGISTER: Set the memory value to the register value
+        if (cur->type == TOKEN_REGISTER) {
+            char *endptr;
+            uint32_t imm = strtoul(cur->value + 1, &endptr, 0);
+
+            if (*endptr == '\0' && imm <= 31) {
+                cur->memory = imm;
+            } else {
+                fprintf(stderr, "[-] Error: Invalid register value '%s'\n", cur->value);
+            }
         }
 
         cur = cur->next;

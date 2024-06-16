@@ -137,7 +137,25 @@ void SetMemoryTokenList(TokenList *list) {
         return;
     }
 
+    //First pass: Find all labels and set their memory value
+    TokenList *label_list = InitializeTokenList();
+    uint32_t line_count = 0;
     while (cur != NULL) {
+        if (cur->type == TOKEN_NEWLINE)
+            line_count++;
+
+        if (cur->type == TOKEN_LABEL)
+            cur->memory = line_count;
+
+        cur = cur->next;
+    }
+
+    //Reset node to start
+    cur = list->head_token;
+
+    //Second pass: Set every other token memory value
+    while (cur != NULL) {
+        //INVALID: Invalid tokens return error
         if (cur->type == TOKEN_INVALID) {
             fprintf(stderr, "[-] Error: Unknown token '%s'\n", cur->value);
             return;
@@ -165,10 +183,11 @@ void SetMemoryTokenList(TokenList *list) {
         }
 
         cur = cur->next;
-    } 
+    }
+    
+    FreeTokenList(label_list);
 }
 
-//TODO: Set the memory in each Token Node
 int ParseToken(const char *source, TokenList *list, int position) {
     int end_pos = position, start_pos = position;
     TokenType token_type;

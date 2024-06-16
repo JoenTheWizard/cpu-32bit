@@ -206,6 +206,19 @@ int ParseToken(const char *source, TokenList *list, int position) {
             end_pos++;
         token_type = TOKEN_INSTRUCTION; //Assume instruction by default
 
+        //Check if it's register
+        if (source[start_pos] == 'r' || source[start_pos] == 'R') {
+            int i = start_pos + 1;
+            token_type = TOKEN_REGISTER;
+            while (i < end_pos) {
+                if (!isdigit(source[i])) {
+                    token_type = TOKEN_INSTRUCTION;
+                    break;
+                }
+                i++;
+            }
+        }
+
         //Check if it's a label
         if (source[end_pos] == ':') {
             token_type = TOKEN_LABEL;

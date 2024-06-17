@@ -147,7 +147,7 @@ void SetMemoryTokenList(TokenList *list) {
 
         if (cur->type == TOKEN_LABEL_DECLARE) {
             cur->memory = line_count;
-            AddTokenList(label_list, cur->type, cur->value, cur->length, cur->memory);
+            AddTokenList(label_list, cur->type, cur->value, cur->length - 1, cur->memory);
         }
 
         cur = cur->next;

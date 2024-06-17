@@ -14,6 +14,7 @@
 //All available types of Tokens
 typedef enum {
     TOKEN_LABEL_DECLARE,
+    TOKEN_LABEL_INITIALIZE,
     TOKEN_INSTRUCTION,
     TOKEN_REGISTER,
     TOKEN_IMMEDIATE,

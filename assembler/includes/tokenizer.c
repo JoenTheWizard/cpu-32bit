@@ -131,6 +131,31 @@ char *ReadFile(const char *filename) {
     return buffer;
 }
 
+//Returns non-zero if not found in any of the mapped instructions or labels
+int SetMappedStringToken(TokenList *label_list, TokenNode *token) {
+    //INSTRUCTION: Set to mapped instruction from instruction_map[]
+    for (size_t i = 0; i < sizeof(instruction_map) / sizeof(instruction_map[0]); i++) {
+        if (!strcmp(token->value, instruction_map[i].instruction)) {
+            token->type   = TOKEN_INSTRUCTION;
+            token->memory = instruction_map[i].memory_value;
+            return 0;
+        }
+    }
+
+    //LABEL: Set to mapped label found from first pass
+    TokenNode *label_node = label_list->head_token;
+    while (label_node != NULL) {
+        if (!strcmp(token->value, label_node->value)) {
+            token->type   = TOKEN_LABEL_INITIALIZE;
+            token->memory = label_node->memory;
+            return 0;
+        }
+        label_node = label_node->next;
+    }
+
+    return 1;
+}
+
 //TODO: Set the memory in each Token Node
 void SetMemoryTokenList(TokenList *list) {
     TokenNode *cur = list->head_token;
@@ -168,25 +193,7 @@ void SetMemoryTokenList(TokenList *list) {
 
         //STRING: Set the memory value and appropriate token to the mapped instruction or mapped label
         if (cur->type == TOKEN_STRING) {
-            //LABEL: Set to mapped label found from first pass
-            TokenNode *label_node = label_list->head_token; 
-            while (label_node != NULL) {
-                if (!strcmp(label_node->value, cur->value)) {
-                    cur->type = TOKEN_LABEL_INITIALIZE;
-                    cur->memory = label_node->memory;
-                    break;
-                }
-                label_node = label_node->next;
-            }
-
-            //INSTRUCTION: Set to mapped instruction from instruction_map[]
-            for (size_t i = 0; i < sizeof(instruction_map) / sizeof(instruction_map[0]); i++) {
-                if (!strcmp(cur->value, instruction_map[i].instruction)) {
-                    cur->type = TOKEN_INSTRUCTION;
-                    cur->memory = instruction_map[i].memory_value;
-                    break;
-                }
-            }
+            SetMappedStringToken(label_list, cur);
         }
 
         //IMMEDIATE: Set the memory value to the value stored in token

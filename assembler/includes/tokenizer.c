@@ -144,7 +144,7 @@ void SetMemoryTokenList(TokenList *list) {
         if (cur->type == TOKEN_NEWLINE)
             line_count++;
 
-        if (cur->type == TOKEN_LABEL)
+        if (cur->type == TOKEN_LABEL_DECLARE)
             cur->memory = line_count;
 
         cur = cur->next;
@@ -236,7 +236,7 @@ int ParseToken(const char *source, TokenList *list, int position) {
 
         //Check if it's a label
         if (source[end_pos] == ':') {
-            token_type = TOKEN_LABEL;
+            token_type = TOKEN_LABEL_DECLARE;
             end_pos++;
         }
     } 

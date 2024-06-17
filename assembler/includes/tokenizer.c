@@ -21,7 +21,7 @@ TokenList *InitializeTokenList(void) {
     return list;
 }
 
-TokenNode *InitializeTokenNode(TokenType type, const char *value, size_t length) {
+TokenNode *InitializeTokenNode(TokenType type, const char *value, size_t length, uint32_t memory) {
     TokenNode *node = (TokenNode*)malloc(sizeof(TokenNode));
 
     if (!node)
@@ -39,18 +39,18 @@ TokenNode *InitializeTokenNode(TokenType type, const char *value, size_t length)
 
     node->length = length;
 
-    node->memory = 0;
+    node->memory = memory;
 
     node->next = NULL;
 
     return node;
 }
 
-void AddTokenList(TokenList *list, TokenType type, const char *value, size_t length) {
+void AddTokenList(TokenList *list, TokenType type, const char *value, size_t length, uint32_t memory) {
     TokenNode *cur = NULL;
     
     if (list->head_token == NULL) {
-        list->head_token = InitializeTokenNode(type, value, length);
+        list->head_token = InitializeTokenNode(type, value, length, memory);
     }
     else {
         cur = list->head_token;
@@ -58,7 +58,7 @@ void AddTokenList(TokenList *list, TokenType type, const char *value, size_t len
         while (cur->next != NULL)
             cur = cur->next;
 
-        cur->next = InitializeTokenNode(type, value, length);
+        cur->next = InitializeTokenNode(type, value, length, memory);
     }
 }
 
@@ -144,8 +144,10 @@ void SetMemoryTokenList(TokenList *list) {
         if (cur->type == TOKEN_NEWLINE)
             line_count++;
 
-        if (cur->type == TOKEN_LABEL_DECLARE)
+        if (cur->type == TOKEN_LABEL_DECLARE) {
             cur->memory = line_count;
+            AddTokenList(label_list, cur->type, cur->value, cur->length, cur->memory);
+        }
 
         cur = cur->next;
     }
@@ -270,7 +272,7 @@ int ParseToken(const char *source, TokenList *list, int position) {
     }
 
     size_t token_length = end_pos - start_pos;
-    AddTokenList(list, token_type, &source[start_pos], token_length);
+    AddTokenList(list, token_type, &source[start_pos], token_length, 0);
 
     return end_pos;
 }

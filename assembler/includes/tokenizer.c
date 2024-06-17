@@ -1,6 +1,7 @@
 #include "tokenizer.h"
 
 const char *tokenTypes[] = {
+    "STRING",
     "LABEL_DECLARE",
     "LABEL_INITIALIZE",
     "INSTRUCTION",
@@ -145,7 +146,7 @@ void SetMemoryTokenList(TokenList *list) {
         if (cur->type == TOKEN_NEWLINE)
             line_count++;
 
-        if (cur->type == TOKEN_LABEL_DECLARE) {
+        else if (cur->type == TOKEN_LABEL_DECLARE) {
             cur->memory = line_count;
             AddTokenList(label_list, cur->type, cur->value, cur->length - 1, cur->memory);
         }
@@ -165,12 +166,25 @@ void SetMemoryTokenList(TokenList *list) {
             return;
         }
 
-        //INSTRUCTION: Set the memory value to the mapped instruction
-        if (cur->type == TOKEN_INSTRUCTION) {
-            size_t i;
-            for (i = 0; i < sizeof(instruction_map) / sizeof(instruction_map[0]); i++) {
+        //STRING: Set the memory value and appropriate token to the mapped instruction or mapped label
+        if (cur->type == TOKEN_STRING) {
+            //LABEL: Set to mapped label found from first pass
+            TokenNode *label_node = label_list->head_token; 
+            while (label_node != NULL) {
+                if (!strcmp(label_node->value, cur->value)) {
+                    cur->type = TOKEN_LABEL_INITIALIZE;
+                    cur->memory = label_node->memory;
+                    break;
+                }
+                label_node = label_node->next;
+            }
+
+            //INSTRUCTION: Set to mapped instruction from instruction_map[]
+            for (size_t i = 0; i < sizeof(instruction_map) / sizeof(instruction_map[0]); i++) {
                 if (!strcmp(cur->value, instruction_map[i].instruction)) {
+                    cur->type = TOKEN_INSTRUCTION;
                     cur->memory = instruction_map[i].memory_value;
+                    break;
                 }
             }
         }
@@ -220,7 +234,8 @@ int ParseToken(const char *source, TokenList *list, int position) {
         end_pos++;
         while (isalnum(source[end_pos]) || source[end_pos] == '_')
             end_pos++;
-        token_type = TOKEN_INSTRUCTION; //Assume instruction by default
+
+        token_type = TOKEN_STRING; //Assume 'string' type by default
 
         //Check if it's register
         if (tolower(source[start_pos]) == 'r' && start_pos + 1 != end_pos) {
@@ -228,7 +243,7 @@ int ParseToken(const char *source, TokenList *list, int position) {
             token_type = TOKEN_REGISTER;
             while (i < end_pos) {
                 if (!isdigit(source[i])) {
-                    token_type = TOKEN_INSTRUCTION;
+                    token_type = TOKEN_STRING;
                     break;
                 }
                 i++;

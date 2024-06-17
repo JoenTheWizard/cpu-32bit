@@ -13,6 +13,7 @@
 
 //All available types of Tokens
 typedef enum {
+    TOKEN_STRING,
     TOKEN_LABEL_DECLARE,
     TOKEN_LABEL_INITIALIZE,
     TOKEN_INSTRUCTION,

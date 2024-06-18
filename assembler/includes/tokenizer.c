@@ -245,15 +245,12 @@ int ParseToken(const char *source, TokenList *list, int position) {
         token_type = TOKEN_STRING; //Assume 'string' type by default
 
         //Check if it's register
-        if (tolower(source[start_pos]) == 'r' && start_pos + 1 != end_pos) {
+        if (tolower(source[start_pos]) == 'r' && start_pos + 1 < end_pos) {
             int i = start_pos + 1;
             token_type = TOKEN_REGISTER;
-            while (i < end_pos) {
-                if (!isdigit(source[i])) {
-                    token_type = TOKEN_STRING;
-                    break;
-                }
-                i++;
+            for (; i < end_pos && isdigit(source[i]); i++);
+            if (i != end_pos) {
+                token_type = TOKEN_STRING;
             }
         }
 

@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <unistd.h>
-#include "includes/tokenizer.h"
+#include "includes/assemble.h"
 
 // *** Will start to work on the assembler once the CPU is refined. ***
 
@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
     }
 
     //Do the Assembling process here...
-    fprintf(stdout, "[+] Assembling file '%s'\n", argv[optind]);
+    fprintf(stdout, "[+] Assembling file '%s' in binary string format...\n", argv[optind]);
 
     Assemble(argv[optind]);
 

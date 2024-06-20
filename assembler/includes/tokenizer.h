@@ -80,6 +80,37 @@ static struct {
     {"JLER", 0b100011}
 };
 
-void Assemble(const char *filename);
+static const char *tokenTypes[] = {
+    "STRING",
+    "LABEL_DECLARE",
+    "LABEL_INITIALIZE",
+    "INSTRUCTION",
+    "REGISTER",
+    "IMMEDIATE",
+    "COMMA",
+    "NEWLINE",
+    "EOF",
+    "INVALID"
+};
+
+TokenList *InitializeTokenList(void);
+
+TokenNode *InitializeTokenNode(TokenType type, const char *value, size_t length, uint32_t memory);
+
+void AddTokenList(TokenList *list, TokenType type, const char *value, size_t length, uint32_t memory);
+
+void PrintTokenList(TokenList *list);
+
+void FreeTokenList(TokenList *list);
+
+char *ReadFile(const char *filename);
+
+int SetMappedStringToken(TokenList *label_list, TokenNode *token);
+
+void SetMemoryTokenList(TokenList *list);
+
+int ParseToken(const char *source, TokenList *list, int position);
+
+int Tokenize(const char *source, TokenList *list);
 
 #endif // TOKENIZER_H

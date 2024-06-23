@@ -152,15 +152,25 @@ void SetMemoryTokenList(TokenList *list) {
     }
 
     //First pass: Find all labels and set their memory value
-    TokenList *label_list = InitializeTokenList();
-    uint32_t line_count = 0;
-    while (cur != NULL) {
-        if (cur->type == TOKEN_NEWLINE)
-            line_count++;
+    uint32_t   line_count    = 0;
+    int        is_line_count = 0;
+    TokenList *label_list    = InitializeTokenList();
 
-        else if (cur->type == TOKEN_LABEL_DECLARE) {
-            cur->memory = line_count;
-            AddTokenList(label_list, cur->type, cur->value, cur->length - 1, cur->memory);
+    while (cur != NULL) {
+        if (cur->type == TOKEN_NEWLINE) {
+            if (is_line_count) {
+                is_line_count = 0;
+                line_count++;
+            }
+        }
+
+        else {
+            is_line_count = 1;
+            
+            if (cur->type == TOKEN_LABEL_DECLARE) {
+                cur->memory = line_count;
+                AddTokenList(label_list, cur->type, cur->value, cur->length - 1, cur->memory);
+            }
         }
 
         cur = cur->next;

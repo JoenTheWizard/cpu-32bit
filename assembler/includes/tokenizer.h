@@ -28,12 +28,13 @@ typedef enum {
 //All available types of Instructions
 typedef enum {
     INSTR_NON_INSTR,
-    INSTR_R_TYPE,
-    INSTR_I_TYPE,
-    INSTR_J_TYPE
+    INSTR_R_TYPE, //op, r_src, r_targ, r_dest
+    INSTR_I_TYPE, //op, r_src, imm
+    INSTR_J_TYPE, //op, imm
+    INSTR_S_TYPE  //op
 } InstructionType;
 
-//Tokens will store type, it's value and length
+//Tokens will store type, it's value, length, memory value and instruction type if applicable
 typedef struct Node {
     TokenType       type;
     char           *value;
@@ -53,7 +54,7 @@ static struct {
     int32_t         memory_value;
     InstructionType instruction_type; 
 } instruction_map[] = {
-    {"NOP",  0b000000, INSTR_R_TYPE},
+    {"NOP",  0b000000, INSTR_S_TYPE},
     {"ADD",  0b000001, INSTR_R_TYPE},
     {"SUB",  0b000010, INSTR_R_TYPE},
     {"MUL",  0b000011, INSTR_R_TYPE},
@@ -77,8 +78,8 @@ static struct {
     {"JLE",  0b010110, INSTR_J_TYPE},
     {"INC",  0b010111, INSTR_R_TYPE},
     {"DEC",  0b011000, INSTR_R_TYPE},
-    {"CALL", 0b011001, INSTR_R_TYPE},
-    {"RET",  0b011010, INSTR_R_TYPE},
+    {"CALL", 0b011001, INSTR_J_TYPE},
+    {"RET",  0b011010, INSTR_S_TYPE},
     {"NOT",  0b011011, INSTR_R_TYPE},
     {"MOV",  0b011100, INSTR_R_TYPE},
     {"JMPR", 0b011101, INSTR_R_TYPE},
@@ -109,7 +110,8 @@ static const char *instructionTypes[] = {
     "NON_INSTR",
     "R_TYPE",
     "I_TYPE",
-    "J_TYPE"
+    "J_TYPE",
+    "S_TYPE"
 };
 
 TokenList *InitializeTokenList(void);

@@ -61,8 +61,8 @@ void PrintTokenList(TokenList *list) {
     }
 
     while (cur != NULL) {
-        printf("| Tok: %s | Instr: %d | Val: %s | Len: %ld | Mem: %u |\n\n",
-               tokenTypes[cur->type], cur->instruction_type, cur->value, cur->length, cur->memory);
+        printf("| Tok: %s | Instr: %s | Val: %s | Len: %ld | Mem: %u |\n\n",
+               tokenTypes[cur->type], instructionTypes[cur->instruction_type], cur->value, cur->length, cur->memory);
         cur = cur->next;
     } 
 }

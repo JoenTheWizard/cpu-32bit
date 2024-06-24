@@ -30,6 +30,8 @@ TokenNode *InitializeTokenNode(TokenType type, const char *value, size_t length,
 
     node->memory = memory;
 
+    node->instruction_type = INSTR_NON_INSTR;
+
     node->next = NULL;
 
     return node;
@@ -59,8 +61,8 @@ void PrintTokenList(TokenList *list) {
     }
 
     while (cur != NULL) {
-        printf("TokType: %s - %s (l: %ld) (mem: %u)\n",
-               tokenTypes[cur->type], cur->value, cur->length, cur->memory);
+        printf("| Tok: %s | Instr: %d | Val: %s | Len: %ld | Mem: %u |\n\n",
+               tokenTypes[cur->type], cur->instruction_type, cur->value, cur->length, cur->memory);
         cur = cur->next;
     } 
 }
@@ -123,8 +125,9 @@ int SetMappedStringToken(TokenList *label_list, TokenNode *token) {
     //INSTRUCTION: Set to mapped instruction from instruction_map[]
     for (size_t i = 0; i < sizeof(instruction_map) / sizeof(instruction_map[0]); i++) {
         if (!strcmp(token->value, instruction_map[i].instruction)) {
-            token->type   = TOKEN_INSTRUCTION;
-            token->memory = instruction_map[i].memory_value;
+            token->type             = TOKEN_INSTRUCTION;
+            token->memory           = instruction_map[i].memory_value;
+            token->instruction_type = instruction_map[i].instruction_type; 
             return 0;
         }
     }

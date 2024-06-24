@@ -27,7 +27,7 @@ TokenNode *consume(TokenNode **token_node, TokenType expected) {
 }
 
 // Parse instruction function
-int ParseInstruction(TokenNode **token_node) {
+int ParseRTypeInstruction(TokenNode **token_node) {
     TokenNode *opcode = consume(token_node, TOKEN_INSTRUCTION);
     if (opcode == NULL) {
         return 1;
@@ -54,6 +54,40 @@ int ParseInstruction(TokenNode **token_node) {
 
     uint32_t binary_out = (opcode->memory << 26) | (src1->memory << 21) | (src2->memory << 16) | (dest->memory << 11);
     printf("||| %s |||\n", int_to_binary(binary_out));
+
+    return 0;
+}
+
+int ParseJTypeInstruction(TokenNode **token_node) {
+    TokenNode *opcode = consume(token_node, TOKEN_INSTRUCTION);
+    if (opcode == NULL) {
+        return 1;
+    }
+
+    TokenNode *imm = consume(token_node, (*token_node)->type == TOKEN_IMMEDIATE ? TOKEN_IMMEDIATE : TOKEN_LABEL_INITIALIZE);
+    if (imm == NULL) {
+        return 1;
+    }
+
+    uint32_t binary_out = (opcode->memory << 26) | (imm->memory & 0x3FFFFFF);
+    printf("||| %s |||\n", int_to_binary(binary_out));
+
+    return 0;
+}
+
+int ParseInstruction(TokenNode **token_node) {
+    InstructionType instruction_type = (*token_node)->instruction_type;
+
+    switch (instruction_type) {
+        case INSTR_R_TYPE: 
+            return ParseRTypeInstruction(token_node);
+            break;
+        case INSTR_I_TYPE:
+            break;
+        case INSTR_J_TYPE:
+            return ParseJTypeInstruction(token_node);
+            break;
+    }
 
     return 0;
 }

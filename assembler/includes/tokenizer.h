@@ -25,12 +25,21 @@ typedef enum {
     TOKEN_INVALID
 } TokenType;
 
+//All available types of Instructions
+typedef enum {
+    INSTR_NON_INSTR,
+    INSTR_R_TYPE,
+    INSTR_I_TYPE,
+    INSTR_J_TYPE
+} InstructionType;
+
 //Tokens will store type, it's value and length
 typedef struct Node {
-    TokenType    type;
-    char        *value;
-    size_t       length;
-    uint32_t     memory;
+    TokenType       type;
+    char           *value;
+    size_t          length;
+    uint32_t        memory;
+    InstructionType instruction_type;
     struct Node *next;
 } TokenNode;
 
@@ -40,46 +49,48 @@ typedef struct {
 
 //Map instruction memory
 static struct {
-    char   *instruction;
-    int32_t memory_value;
+    char           *instruction;
+    int32_t         memory_value;
+    InstructionType instruction_type; 
 } instruction_map[] = {
-    {"NOP",  0b000000},
-    {"ADD",  0b000001},
-    {"SUB",  0b000010},
-    {"MUL",  0b000011},
-    {"AND",  0b000100},
-    {"OR",   0b000101},
-    {"JMP",  0b000110},
-    {"LUI",  0b000111},
-    {"LLI",  0b001000},
-    {"CMP",  0b001010},
-    {"JEQ",  0b001011},
-    {"LOD",  0b001100},
-    {"STR",  0b001101},
-    {"XOR",  0b001110},
-    {"XNOR", 0b001111},
-    {"SHL",  0b010000},
-    {"SHR",  0b010001},
-    {"JNE",  0b010010},
-    {"JB",   0b010011},
-    {"JBE",  0b010100},
-    {"JL",   0b010101},
-    {"JLE",  0b010110},
-    {"INC",  0b010111},
-    {"DEC",  0b011000},
-    {"CALL", 0b011001},
-    {"RET",  0b011010},
-    {"NOT",  0b011011},
-    {"MOV",  0b011100},
-    {"JMPR", 0b011101},
-    {"JEQR", 0b011110},
-    {"JNER", 0b011111},
-    {"JBR",  0b100000},
-    {"JBER", 0b100001},
-    {"JLR",  0b100010},
-    {"JLER", 0b100011}
+    {"NOP",  0b000000, INSTR_R_TYPE},
+    {"ADD",  0b000001, INSTR_R_TYPE},
+    {"SUB",  0b000010, INSTR_R_TYPE},
+    {"MUL",  0b000011, INSTR_R_TYPE},
+    {"AND",  0b000100, INSTR_R_TYPE},
+    {"OR",   0b000101, INSTR_R_TYPE},
+    {"JMP",  0b000110, INSTR_J_TYPE},
+    {"LUI",  0b000111, INSTR_R_TYPE},
+    {"LLI",  0b001000, INSTR_R_TYPE},
+    {"CMP",  0b001010, INSTR_R_TYPE},
+    {"JEQ",  0b001011, INSTR_R_TYPE},
+    {"LOD",  0b001100, INSTR_R_TYPE},
+    {"STR",  0b001101, INSTR_R_TYPE},
+    {"XOR",  0b001110, INSTR_R_TYPE},
+    {"XNOR", 0b001111, INSTR_R_TYPE},
+    {"SHL",  0b010000, INSTR_R_TYPE},
+    {"SHR",  0b010001, INSTR_R_TYPE},
+    {"JNE",  0b010010, INSTR_J_TYPE},
+    {"JB",   0b010011, INSTR_J_TYPE},
+    {"JBE",  0b010100, INSTR_J_TYPE},
+    {"JL",   0b010101, INSTR_J_TYPE},
+    {"JLE",  0b010110, INSTR_J_TYPE},
+    {"INC",  0b010111, INSTR_R_TYPE},
+    {"DEC",  0b011000, INSTR_R_TYPE},
+    {"CALL", 0b011001, INSTR_R_TYPE},
+    {"RET",  0b011010, INSTR_R_TYPE},
+    {"NOT",  0b011011, INSTR_R_TYPE},
+    {"MOV",  0b011100, INSTR_R_TYPE},
+    {"JMPR", 0b011101, INSTR_R_TYPE},
+    {"JEQR", 0b011110, INSTR_R_TYPE},
+    {"JNER", 0b011111, INSTR_R_TYPE},
+    {"JBR",  0b100000, INSTR_R_TYPE},
+    {"JBER", 0b100001, INSTR_R_TYPE},
+    {"JLR",  0b100010, INSTR_R_TYPE},
+    {"JLER", 0b100011, INSTR_R_TYPE}
 };
 
+//String array used to debug print
 static const char *tokenTypes[] = {
     "STRING",
     "LABEL_DECLARE",
@@ -91,6 +102,14 @@ static const char *tokenTypes[] = {
     "NEWLINE",
     "EOF",
     "INVALID"
+};
+
+//String array used to debug print
+static const char *instructionTypes[] = {
+    "NON_INSTR",
+    "R_TYPE",
+    "I_TYPE",
+    "J_TYPE"
 };
 
 TokenList *InitializeTokenList(void);

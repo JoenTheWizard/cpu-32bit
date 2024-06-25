@@ -274,6 +274,14 @@ int ParseToken(const char *source, TokenList *list, int position) {
                 token_type = TOKEN_COMMA;
                 end_pos++;
                 break;
+            case '[':
+                token_type = TOKEN_S_OPEN_BRACKET;
+                end_pos++;
+                break;
+            case ']':
+                token_type = TOKEN_S_CLOSE_BRACKET;
+                end_pos++;
+                break;
             case '\n':
                 token_type = TOKEN_NEWLINE;
                 end_pos++;

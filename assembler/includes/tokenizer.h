@@ -20,6 +20,8 @@ typedef enum {
     TOKEN_REGISTER,
     TOKEN_IMMEDIATE,
     TOKEN_COMMA,
+    TOKEN_S_OPEN_BRACKET,
+    TOKEN_S_CLOSE_BRACKET,
     TOKEN_NEWLINE,
     TOKEN_EOF,
     TOKEN_INVALID
@@ -100,6 +102,8 @@ static const char *tokenTypes[] = {
     "REGISTER",
     "IMMEDIATE",
     "COMMA",
+    "S_OPEN_BRACKET",
+    "S_CLOSE_BRACKET",
     "NEWLINE",
     "EOF",
     "INVALID"

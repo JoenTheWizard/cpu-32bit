@@ -58,6 +58,33 @@ int ParseRTypeInstruction(TokenNode **token_node) {
     return 0;
 }
 
+int ParseITypeInstruction(TokenNode **token_node) {
+    TokenNode *opcode = consume(token_node, TOKEN_INSTRUCTION);
+    if (opcode == NULL) {
+        return 1;
+    }
+
+    TokenNode *src1 = consume(token_node, TOKEN_REGISTER);
+    if (src1 == NULL) {
+        return 1;
+    }
+
+    consume(token_node, TOKEN_COMMA);
+
+    TokenNode *imm = consume(token_node, (*token_node)->type == TOKEN_IMMEDIATE ? TOKEN_IMMEDIATE : TOKEN_LABEL_INITIALIZE);
+    if (imm == NULL) {
+        return 1;
+    }
+
+    if (imm->memory > 0xFFFF)
+        fprintf(stderr, "[*] Warning: Immediate value '%u' overflows from 16-bit value\n", imm->memory);
+
+    uint32_t binary_out = (opcode->memory << 26) | (src1->memory << 21) | (imm->memory & 0xFFFF);
+    printf("||| %s |||\n", int_to_binary(binary_out));
+
+    return 0;
+}
+
 int ParseJTypeInstruction(TokenNode **token_node) {
     TokenNode *opcode = consume(token_node, TOKEN_INSTRUCTION);
     if (opcode == NULL) {
@@ -95,12 +122,21 @@ int ParseInstruction(TokenNode **token_node) {
             return ParseRTypeInstruction(token_node);
             break;
         case INSTR_I_TYPE:
+            return ParseITypeInstruction(token_node);
             break;
         case INSTR_J_TYPE:
             return ParseJTypeInstruction(token_node);
             break;
         case INSTR_S_TYPE:
             return ParseSTypeInstruction(token_node);
+            break;
+        case INSTR_IJ_TYPE:
+            break;
+        case INSTR_RT_TYPE:
+            break;
+        case INSTR_RR_TYPE:
+            break;
+        case INSTR_RI_TYPE:
             break;
     }
 

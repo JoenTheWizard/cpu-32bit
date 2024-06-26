@@ -180,6 +180,38 @@ int ParseRRTypeInstruction(TokenNode **token_node) {
     return 0;
 }
 
+int ParseRITypeInstruction(TokenNode **token_node) {
+    TokenNode *opcode = consume(token_node, TOKEN_INSTRUCTION);
+    if (opcode == NULL) {
+        return 1;
+    }
+
+    TokenNode *src1 = consume(token_node, TOKEN_REGISTER);
+    if (src1 == NULL) {
+        return 1;
+    }
+
+    consume(token_node, TOKEN_COMMA);
+
+    if (consume(token_node, TOKEN_S_OPEN_BRACKET) == NULL) {
+        return 1;
+    }
+
+    TokenNode *src2 = consume(token_node, TOKEN_REGISTER);
+    if (src2 == NULL) {
+        return 1;
+    }
+
+    if (consume(token_node, TOKEN_S_CLOSE_BRACKET) == NULL) {
+        return 1;
+    }
+
+    uint32_t binary_out = (opcode->memory << 26) | (src1->memory << 21) | (src2->memory << 16);
+    printf("||| %s |||\n", int_to_binary(binary_out));
+
+    return 0;
+}
+
 int ParseInstruction(TokenNode **token_node) {
     InstructionType instruction_type = (*token_node)->instruction_type;
 
@@ -206,6 +238,7 @@ int ParseInstruction(TokenNode **token_node) {
             return ParseRRTypeInstruction(token_node);
             break;
         case INSTR_RI_TYPE:
+            return ParseRITypeInstruction(token_node);
             break;
     }
 

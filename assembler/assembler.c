@@ -54,7 +54,7 @@ int main(int argc, char *argv[]) {
     //Do the Assembling process here...
     fprintf(stdout, "[+] Assembling file '%s' in binary string format...\n", argv[optind]);
 
-    Assemble(argv[optind]);
+    Assemble(argv[optind], output_filename == NULL ? "instructions.mem" : output_filename);
 
     return 0;
 }

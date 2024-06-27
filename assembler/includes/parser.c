@@ -27,7 +27,7 @@ TokenNode *consume(TokenNode **token_node, TokenType expected) {
 }
 
 // Parse instruction function
-int ParseRTypeInstruction(TokenNode **token_node) {
+int ParseRTypeInstruction(TokenNode **token_node, FILE *output_file) {
     TokenNode *opcode = consume(token_node, TOKEN_INSTRUCTION);
     if (opcode == NULL) {
         return 1;
@@ -54,11 +54,12 @@ int ParseRTypeInstruction(TokenNode **token_node) {
 
     uint32_t binary_out = (opcode->memory << 26) | (src1->memory << 21) | (src2->memory << 16) | (dest->memory << 11);
     printf("||| %s |||\n", int_to_binary(binary_out));
+    fprintf(output_file, "%s\n", int_to_binary(binary_out));
 
     return 0;
 }
 
-int ParseITypeInstruction(TokenNode **token_node) {
+int ParseITypeInstruction(TokenNode **token_node, FILE *output_file) {
     TokenNode *opcode = consume(token_node, TOKEN_INSTRUCTION);
     if (opcode == NULL) {
         return 1;
@@ -77,15 +78,16 @@ int ParseITypeInstruction(TokenNode **token_node) {
     }
 
     if (imm->memory > 0xFFFF)
-        fprintf(stderr, "[*] Warning: Immediate value '%u' overflows from 16-bit value\n", imm->memory);
+        fprintf(stderr, "[*] Warning: Immediate value '%u' overflows from 16-bit I-Type Instruction parameter\n", imm->memory);
 
     uint32_t binary_out = (opcode->memory << 26) | (src1->memory << 21) | (imm->memory & 0xFFFF);
     printf("||| %s |||\n", int_to_binary(binary_out));
+    fprintf(output_file, "%s\n", int_to_binary(binary_out));
 
     return 0;
 }
 
-int ParseJTypeInstruction(TokenNode **token_node) {
+int ParseJTypeInstruction(TokenNode **token_node, FILE *output_file) {
     TokenNode *opcode = consume(token_node, TOKEN_INSTRUCTION);
     if (opcode == NULL) {
         return 1;
@@ -98,11 +100,12 @@ int ParseJTypeInstruction(TokenNode **token_node) {
 
     uint32_t binary_out = (opcode->memory << 26) | (imm->memory & 0x3FFFFFF);
     printf("||| %s |||\n", int_to_binary(binary_out));
+    fprintf(output_file, "%s\n", int_to_binary(binary_out));
 
     return 0;
 }
 
-int ParseSTypeInstruction(TokenNode **token_node) {
+int ParseSTypeInstruction(TokenNode **token_node, FILE *output_file) {
     TokenNode *opcode = consume(token_node, TOKEN_INSTRUCTION);
     if (opcode == NULL) {
         return 1;
@@ -110,11 +113,12 @@ int ParseSTypeInstruction(TokenNode **token_node) {
 
     uint32_t binary_out = (opcode->memory << 26);
     printf("||| %s |||\n", int_to_binary(binary_out));
+    fprintf(output_file, "%s\n", int_to_binary(binary_out));
 
     return 0;
 }
 
-int ParseIJTypeInstruction(TokenNode **token_node) {
+int ParseIJTypeInstruction(TokenNode **token_node, FILE *output_file) {
     TokenNode *opcode = consume(token_node, TOKEN_INSTRUCTION);
     if (opcode == NULL) {
         return 1;
@@ -135,11 +139,12 @@ int ParseIJTypeInstruction(TokenNode **token_node) {
 
     uint32_t binary_out = (opcode->memory << 26) | (src1->memory << 21);
     printf("||| %s |||\n", int_to_binary(binary_out));
+    fprintf(output_file, "%s\n", int_to_binary(binary_out));
 
     return 0;
 }
 
-int ParseRTTypeInstruction(TokenNode **token_node) {
+int ParseRTTypeInstruction(TokenNode **token_node, FILE *output_file) {
     TokenNode *opcode = consume(token_node, TOKEN_INSTRUCTION);
     if (opcode == NULL) {
         return 1;
@@ -152,11 +157,12 @@ int ParseRTTypeInstruction(TokenNode **token_node) {
 
     uint32_t binary_out = (opcode->memory << 26) | (src1->memory << 21);
     printf("||| %s |||\n", int_to_binary(binary_out));
+    fprintf(output_file, "%s\n", int_to_binary(binary_out));
 
     return 0;
 }
 
-int ParseRRTypeInstruction(TokenNode **token_node) {
+int ParseRRTypeInstruction(TokenNode **token_node, FILE *output_file) {
     TokenNode *opcode = consume(token_node, TOKEN_INSTRUCTION);
     if (opcode == NULL) {
         return 1;
@@ -176,11 +182,12 @@ int ParseRRTypeInstruction(TokenNode **token_node) {
 
     uint32_t binary_out = (opcode->memory << 26) | (src1->memory << 21) | (src2->memory << 16);
     printf("||| %s |||\n", int_to_binary(binary_out));
+    fprintf(output_file, "%s\n", int_to_binary(binary_out));
 
     return 0;
 }
 
-int ParseRITypeInstruction(TokenNode **token_node) {
+int ParseRITypeInstruction(TokenNode **token_node, FILE *output_file) {
     TokenNode *opcode = consume(token_node, TOKEN_INSTRUCTION);
     if (opcode == NULL) {
         return 1;
@@ -208,37 +215,38 @@ int ParseRITypeInstruction(TokenNode **token_node) {
 
     uint32_t binary_out = (opcode->memory << 26) | (src1->memory << 21) | (src2->memory << 16);
     printf("||| %s |||\n", int_to_binary(binary_out));
+    fprintf(output_file, "%s\n", int_to_binary(binary_out));
 
     return 0;
 }
 
-int ParseInstruction(TokenNode **token_node) {
+int ParseInstruction(TokenNode **token_node, FILE *output_file) {
     InstructionType instruction_type = (*token_node)->instruction_type;
 
     switch (instruction_type) {
         case INSTR_R_TYPE: 
-            return ParseRTypeInstruction(token_node);
+            return ParseRTypeInstruction(token_node, output_file);
             break;
         case INSTR_I_TYPE:
-            return ParseITypeInstruction(token_node);
+            return ParseITypeInstruction(token_node, output_file);
             break;
         case INSTR_J_TYPE:
-            return ParseJTypeInstruction(token_node);
+            return ParseJTypeInstruction(token_node, output_file);
             break;
         case INSTR_S_TYPE:
-            return ParseSTypeInstruction(token_node);
+            return ParseSTypeInstruction(token_node, output_file);
             break;
         case INSTR_IJ_TYPE:
-            return ParseIJTypeInstruction(token_node); 
+            return ParseIJTypeInstruction(token_node, output_file);
             break;
         case INSTR_RT_TYPE:
-            return ParseRTTypeInstruction(token_node);
+            return ParseRTTypeInstruction(token_node, output_file);
             break;
         case INSTR_RR_TYPE:
-            return ParseRRTypeInstruction(token_node);
+            return ParseRRTypeInstruction(token_node, output_file);
             break;
         case INSTR_RI_TYPE:
-            return ParseRITypeInstruction(token_node);
+            return ParseRITypeInstruction(token_node, output_file);
             break;
     }
 
@@ -246,7 +254,7 @@ int ParseInstruction(TokenNode **token_node) {
 }
 
 // Main parsing function
-void ParseTokenList(TokenList *list) {
+void ParseTokenList(TokenList *list, FILE *output_file) {
     TokenNode *cur = list->head_token;
 
     size_t line_count = 1;
@@ -254,7 +262,7 @@ void ParseTokenList(TokenList *list) {
     while (cur != NULL && cur->type != TOKEN_EOF) {
 
         if (cur->type == TOKEN_INSTRUCTION) {
-            if (ParseInstruction(&cur)) {
+            if (ParseInstruction(&cur, output_file)) {
                 fprintf(stderr, "[-] Error: Invalid instruction format '%s' at line '%ld'\n", cur->value, line_count);
                 return;
             }

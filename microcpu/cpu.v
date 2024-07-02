@@ -76,14 +76,6 @@ file_register register_file(
     .alu_out2(reg_data2)
 );
 
-//Instruction Register
-instruction_register register_instruction(
-  .clk(clk),
-  .flush(1'b0),
-  .in_instruction(instruction),
-  .out_instruction(ir_instruction)
-);
-
 //Create ALU
 ALU16bit alu (
     .clk(clk),
@@ -98,7 +90,7 @@ ALU16bit alu (
 
 //Control Unit
 control_unit ControlUnit(
-    .instruction(ir_instruction),
+    .instruction(instruction),
     .status_reg(status_reg),
     .alu_op(alu_op),
     .alu_src1(alu_src1),

@@ -155,6 +155,7 @@ void SetMemoryTokenList(TokenList *list) {
     }
 
     //First pass: Find all labels and set their memory value
+    //Could optimize this by just incrementing line_count if INSTRUCTION type is found (from SetMappedStringToken)
     uint32_t   line_count    = 0;
     int        is_line_count = 0;
     TokenList *label_list    = InitializeTokenList();

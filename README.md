@@ -29,7 +29,7 @@ Usage:
 
 `build/asm [-v] [-o filename] input_file`
 
-- `-o`: Output file
+- `-o filename`: Output file
 - `-v`: Verbose mode
 
 ## test-modules

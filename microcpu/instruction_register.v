@@ -6,9 +6,9 @@ module instruction_register(
   output reg [31:0] out_instruction
 );
 
-always @(posedge clk or posedge flush) begin
+always @(posedge clk) begin
   if (flush) begin
-    out_instruction <= 32'b0;
+    out_instruction <= 32'b0; //NOP (or flush the instruction register pipeline)
   end else begin 
     out_instruction <= in_instruction;
   end

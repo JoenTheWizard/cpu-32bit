@@ -50,7 +50,7 @@ module control_register(
 
 //** Design first, will include into CPU later **
 
-always (posedge clk) begin
+always @(posedge clk) begin
     out_alu_op           <= flush ? 4'b0  : in_alu_op;
     out_alu_src1         <= flush ? 5'b0  : in_alu_src1;
     out_alu_src2         <= flush ? 5'b0  : in_alu_src2;

@@ -54,7 +54,15 @@ counter program_counter(
     .alu_in(alu_next_enable), 
     .alu_val(alu_result),
     .count(pc_out),
-    .count_next(count_next) //Obtain the next program counter value for call/ret instructions
+    .count_next(count_next) //Obtain next PC value for call/ret instructions (might be deprecated with pipelining)
+);
+
+//Instruction Register (IF: Stage 1)
+instruction_register register_instruction(
+  .clk(clk),
+  .flush(load_pc | pc_next_enable | alu_next_enable),
+  .in_instruction(instruction),
+  .out_instruction(ir_instruction)
 );
 
 //Create file register
@@ -65,7 +73,7 @@ file_register register_file(
     .dest(alu_dest),
     .alu_data_in(alu_result), //Store the result from ALU to destination register
     .memory_in(data_mem_out),
-    .pc_addr_in(count_next),
+    .pc_addr_in(pc_out),
 
     //Set signals
     .mem_data_in(mem_data_in),
@@ -90,7 +98,7 @@ ALU16bit alu (
 
 //Control Unit
 control_unit ControlUnit(
-    .instruction(instruction),
+    .instruction(ir_instruction),
     .status_reg(status_reg),
     .alu_op(alu_op),
     .alu_src1(alu_src1),

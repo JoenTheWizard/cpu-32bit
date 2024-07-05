@@ -11,7 +11,7 @@ reg [DATA_WIDTH-1:0] mem[0:(2**ADDR_WIDTH-1)];
 
 //Read from file to initialize the instructions
 initial begin
-    $readmemb("readmem/instructions.mem", mem);
+    $readmemb("../assembler/build/test.mem", mem);
 end
 
 always @(*) begin

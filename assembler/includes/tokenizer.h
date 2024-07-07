@@ -23,6 +23,7 @@ typedef enum {
     TOKEN_S_OPEN_BRACKET,
     TOKEN_S_CLOSE_BRACKET,
     TOKEN_NEWLINE,
+    TOKEN_COMMENT,
     TOKEN_EOF,
     TOKEN_INVALID
 } TokenType;
@@ -109,6 +110,7 @@ static const char *tokenTypes[] = {
     "S_OPEN_BRACKET",
     "S_CLOSE_BRACKET",
     "NEWLINE",
+    "COMMENT",
     "EOF",
     "INVALID"
 };

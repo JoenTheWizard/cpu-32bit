@@ -288,6 +288,12 @@ int ParseToken(const char *source, TokenList *list, int position) {
                 token_type = TOKEN_NEWLINE;
                 end_pos++;
                 break;
+            case ';':
+                token_type = TOKEN_COMMENT;
+                end_pos++;
+                while (source[end_pos] != '\n' && source[end_pos] != '\0')
+                  end_pos++;
+                break;
             case '\0':
                 token_type = TOKEN_EOF;
                 end_pos++;

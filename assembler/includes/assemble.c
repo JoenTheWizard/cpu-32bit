@@ -30,7 +30,7 @@ void Assemble(const char *filename, const char *output_filename) {
 
     ParseTokenList(token_list, output_file);
 
-    PrintTokenList(token_list);
+    //PrintTokenList(token_list);
 
     free(fasm_content);
     fclose(output_file);

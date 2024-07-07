@@ -23,13 +23,13 @@ Within the `readmem/` folder, it contains:
 - `registers.mem`: The memory set for the file registers in hex format
 
 ## assembler
-This will be the assembler program to output the binary file for the simulation. Right now it can output the binary string.
+This is the assembler program to output the binary file for the simulation. Right now it can output the binary string. Some examples provided for the assembly is in `asm-examples`. 
 
 Usage:
 
 `build/asm [-v] [-o filename] input_file`
 
-- `-o filename`: Output file
+- `-o [filename]`: Output file
 - `-v`: Verbose mode
 
 ## test-modules

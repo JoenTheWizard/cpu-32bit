@@ -306,7 +306,8 @@ int ParseToken(const char *source, TokenList *list, int position) {
     }
 
     size_t token_length = end_pos - start_pos;
-    AddTokenList(list, token_type, &source[start_pos], token_length, 0);
+    if (token_type != TOKEN_COMMENT) //Ignore comments
+        AddTokenList(list, token_type, &source[start_pos], token_length, 0);
 
     return end_pos;
 }

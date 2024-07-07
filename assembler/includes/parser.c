@@ -277,10 +277,6 @@ void ParseTokenList(TokenList *list, FILE *output_file) {
             consume(&cur, TOKEN_LABEL_DECLARE);
         }
 
-        else if (cur->type == TOKEN_COMMENT) {
-            consume(&cur, TOKEN_COMMENT);
-        }
-
         else {
             fprintf(stderr, "[-] Error: Unexpected token '%s' at line '%ld'\n", tokenTypes[cur->type], line_count);
             return;
